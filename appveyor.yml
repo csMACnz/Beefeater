@@ -1,0 +1,17 @@
+version: 1.0.0.{build}
+environment:
+  COVERALLS_REPO_TOKEN: TODO
+  COVERITY_TOKEN: TODO
+  COVERITY_EMAIL: TODO
+install:
+- ps: .\build.environment.ps1
+- ps: psake .\build.tasks.ps1 appveyor-install
+build_script:
+- ps: psake .\build.tasks.ps1 appveyor-build
+test_script:
+- ps: psake .\build.tasks.ps1 appveyor-test
+artifacts:
+- path: BeefeaterCoverage.xml
+  name: BeefeaterCoverage.xml
+- path: Beefeater.*.zip
+- path: Beefeater.*.nupkg

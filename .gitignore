@@ -1,0 +1,33 @@
+# Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
+bin
+obj
+
+#User Preference Files
+*.suo
+*.userprefs
+*.user
+*.sln.DotSettings.user
+*.sln.ide
+
+# mstest test results
+TestResults
+
+# NuGet Packages
+*.nupkg
+# The packages folder can be ignored because of Package Restore
+**/packages/*
+# except build/, which is used as an MSBuild target.
+!**/packages/build/
+# If using the old MSBuild-Integrated Package Restore, uncomment this:
+#!**/packages/repositories.config
+
+#Build Script Artifacts
+Package
+coverity.zip
+coverallsTestOutput.json
+cov-int
+codecov
+cov-analysis-win64-*
+BeefeaterCoverage.xml
+Beefeater.*.zip
+Beefeater.*.nupkg
