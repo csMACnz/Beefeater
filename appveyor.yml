@@ -1,8 +1,10 @@
 version: 1.0.0.{build}
 environment:
   COVERALLS_REPO_TOKEN: TODO
-  COVERITY_TOKEN: TODO
-  COVERITY_EMAIL: TODO
+  COVERITY_TOKEN:
+    secure: vSFoGG7ATay42KjvJXLqMl/hBthqsp6ZLr6ulbMRFxk=
+  COVERITY_EMAIL:
+    secure: UEqRjr6WeJQzmybaDQ1x8vGceHZcnwS/K67lMvLKaiE=
 install:
 - ps: .\build.environment.ps1
 - ps: psake .\build.tasks.ps1 appveyor-install

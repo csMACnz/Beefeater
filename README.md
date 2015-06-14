@@ -20,7 +20,7 @@ Guard your methods' Ins and Outs.
 [![Travis Build Status](https://img.shields.io/travis/csMACnz/Beefeater.svg)](https://travis-ci.org/csMACnz/Beefeater)
 
 [![Coverage Status](https://img.shields.io/coveralls/csMACnz/Beefeater.svg)](https://coveralls.io/r/csMACnz/Beefeater?branch=master)
-[![Coverity Scan Build Status](https://img.shields.io/coverity/scan/3770.svg)](https://scan.coverity.com/projects/3770)
+[![Coverity Scan Build Status](https://img.shields.io/coverity/scan/5462.svg)](https://scan.coverity.com/projects/5462)
 
 This library contains helpers to add semantics to the optionality of your parameters and results from method calls.
 
