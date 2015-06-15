@@ -1,6 +1,7 @@
 version: 1.0.0.{build}
 environment:
-  COVERALLS_REPO_TOKEN: TODO
+  COVERALLS_REPO_TOKEN:
+    secure: /ub3L1j8fknd2F4q2iW+waqWIe+0yrnk/l/0OTzPIvfu2hjoOYthlEMwLEaT2pO9
   COVERITY_TOKEN:
     secure: vSFoGG7ATay42KjvJXLqMl/hBthqsp6ZLr6ulbMRFxk=
   COVERITY_EMAIL:
