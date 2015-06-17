@@ -33,3 +33,4 @@ Beefeater.*.zip
 Beefeater.*.nupkg
 *.ncrunchproject
 *.ncrunchsolution
+src/_NCrunch_Beefeater
