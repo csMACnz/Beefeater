@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BCLExtensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\BCLExtensions.1.1.0\lib\BCLExtensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="xunit, Version=1.9.2.1705, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\Beefeater\packages\xunit.1.9.2\lib\net20\xunit.dll</HintPath>
@@ -50,7 +54,9 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="NotNullTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestHelpers\ThrowsHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
