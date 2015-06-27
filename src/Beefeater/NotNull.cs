@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Beefeater
+﻿namespace Beefeater
 {
     public struct NotNull<T>
     {
@@ -22,9 +20,5 @@ namespace Beefeater
                 return _value;
             }
         }
-    }
-
-    public class PanicException : Exception
-    {
     }
 }
