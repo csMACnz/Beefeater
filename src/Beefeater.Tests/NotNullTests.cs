@@ -35,6 +35,15 @@ namespace Beefeater.Tests
             Assert.Throws<PanicException>(action.AsActionUsing(notNullFoo).AsThrowsDelegate());
         }
 
+        [Fact]
+        public void NotNullUsingEmptyConstructorThrowsWhenValueIsAccessed()
+        {
+            var notNullFoo = new NotNull<Foo>();
+
+            Func<NotNull<Foo>, Foo> action = GetValue;
+            Assert.Throws<PanicException>(action.AsActionUsing(notNullFoo).AsThrowsDelegate());
+        }
+
         private static NotNull<Foo> CreateNotNull(Foo foo)
         {
             var item = new NotNull<Foo>(foo);
