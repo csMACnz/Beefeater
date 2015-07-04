@@ -6,6 +6,13 @@
     </member>
     <member name="P:Beefeater.NotNull`1.Value">
         <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
-        <attribute ctor="M:JetBrains.Annotations.PureAttribute.#ctor" />
+    </member>
+    <member name="M:Beefeater.Option`1.#ctor(`0)">
+        <parameter name="value">
+            <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+        </parameter>
+    </member>
+    <member name="P:Beefeater.NotNull`1.Value">
+        <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
     </member>
 </assembly>
