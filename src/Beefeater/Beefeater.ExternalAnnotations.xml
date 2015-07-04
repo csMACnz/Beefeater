@@ -1,0 +1,11 @@
+<assembly name="Beefeater">
+    <member name="M:Beefeater.NotNull`1.#ctor(`0)">
+        <parameter name="value">
+            <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+        </parameter>
+    </member>
+    <member name="P:Beefeater.NotNull`1.Value">
+        <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+        <attribute ctor="M:JetBrains.Annotations.PureAttribute.#ctor" />
+    </member>
+</assembly>

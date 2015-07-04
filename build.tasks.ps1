@@ -149,6 +149,7 @@ task archive-only {
     mkdir $archive_dir
 
     cp "$build_output_dir\Beefeater.dll" "$archive_dir"
+    cp "$build_output_dir\Beefeater.ExternalAnnotations.xml" "$archive_dir"
 
     Write-Zip -Path "$archive_dir\*" -OutputPath $archive_filename
 }
@@ -164,6 +165,7 @@ task pack-only -depends SetChocolateyPath {
     mkdir "$nuget_pack_dir\lib"
     mkdir "$nuget_pack_dir\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1"
     cp "$build_output_dir\Beefeater.dll" "$nuget_pack_dir\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1"
+    cp "$build_output_dir\Beefeater.ExternalAnnotations.xml" "$nuget_pack_dir\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1"
 
     $Spec = [xml](get-content "$nuget_pack_dir\$nuspec_filename")
     $Spec.package.metadata.version = ([string]$Spec.package.metadata.version).Replace("{Version}", $script:nugetVersion)
