@@ -1,4 +1,8 @@
-﻿using Xunit;
+﻿using System;
+using BCLExtensions;
+using Beefeater.Tests.TestHelpers;
+using Xunit;
+// ReSharper disable ImpureMethodCallOnReadonlyValueField
 
 namespace Beefeater.Tests
 {
@@ -27,6 +31,41 @@ namespace Beefeater.Tests
             {
                 Assert.Equal(_foo, _option.ValueOr(new Foo()));
             }
+
+            [Fact]
+            public void ActionMatchCallsSomeButNotNone()
+            {
+                var noneCalled = false;
+                var someCalled = false;
+
+                _option.Match(
+                    some: v => someCalled = true,
+                    none: () => noneCalled = true);
+
+                var someCalledButNoneNotCalled = someCalled && !noneCalled;
+                Assert.True(someCalledButNoneNotCalled);
+            }
+
+            [Fact]
+            public void ActionMatchWithNullSomeCaseThrowsException()
+            {
+                Action<Action<Foo>,Action> callActionMatch = _option.Match;
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(null, () => { }).AsThrowsDelegate());
+            }
+
+            [Fact]
+            public void ActionMatchWithNullNoneCaseThrowsException()
+            {
+                Action<Action<Foo>, Action> callActionMatch = _option.Match;
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(v => { },null).AsThrowsDelegate());
+            }
+
+            [Fact]
+            public void ActionMatchWithBothCasesNullThrowsException()
+            {
+                Action<Action<Foo>, Action> callActionMatch = _option.Match;
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(null, null).AsThrowsDelegate());
+            }
         }
 
         public class WhenCreatingAnOptionFooUsingNullThen
@@ -41,7 +80,6 @@ namespace Beefeater.Tests
             [Fact]
             public void ValueOrNullMatchesNull()
             {
-                var newFoo = new Foo();
                 Assert.Equal(null, _option.ValueOr(null));
             }
 
@@ -50,6 +88,41 @@ namespace Beefeater.Tests
             {
                 var newFoo = new Foo();
                 Assert.Equal(newFoo, _option.ValueOr(newFoo));
+            }
+
+            [Fact]
+            public void ActionMatchCallsNoneButNotSome()
+            {
+                var noneCalled = false;
+                var someCalled = false;
+
+                _option.Match(
+                     v => someCalled = true,
+                     () => noneCalled = true);
+
+                var someNotCalledButNoneCalled = !someCalled && noneCalled;
+                Assert.True(someNotCalledButNoneCalled);
+            }
+
+            [Fact]
+            public void ActionMatchWithNullSomeCaseThrowsException()
+            {
+                Action<Action<Foo>, Action> callActionMatch = _option.Match;
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(null, () => { }).AsThrowsDelegate());
+            }
+
+            [Fact]
+            public void ActionMatchWithNullNoneCaseThrowsException()
+            {
+                Action<Action<Foo>, Action> callActionMatch = _option.Match;
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(v => { }, null).AsThrowsDelegate());
+            }
+
+            [Fact]
+            public void ActionMatchWithBothCasesNullThrowsException()
+            {
+                Action<Action<Foo>, Action> callActionMatch = _option.Match;
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(null, null).AsThrowsDelegate());
             }
         }
 
@@ -65,7 +138,6 @@ namespace Beefeater.Tests
             [Fact]
             public void ValueOrNullMatchesNull()
             {
-                var newFoo = new Foo();
                 Assert.Equal(null, _option.ValueOr(null));
             }
 
@@ -74,6 +146,20 @@ namespace Beefeater.Tests
             {
                 var newFoo = new Foo();
                 Assert.Equal(newFoo, _option.ValueOr(newFoo));
+            }
+
+            [Fact]
+            public void ActionMatchCallsNoneButNotSome()
+            {
+                var noneCalled = false;
+                var someCalled = false;
+
+                _option.Match(
+                    some: v => someCalled = true,
+                    none: () => noneCalled = true);
+
+                var someNotCalledButNoneCalled = !someCalled && noneCalled;
+                Assert.True(someNotCalledButNoneCalled);
             }
         }
 
@@ -93,6 +179,20 @@ namespace Beefeater.Tests
             public void ValueOrMinMatchesOriginalFoo()
             {
                 Assert.Equal(_value, _option.ValueOr(int.MinValue));
+            }
+            
+            [Fact]
+            public void ActionMatchCallsSomeButNotNone()
+            {
+                var noneCalled = false;
+                var someCalled = false;
+
+                _option.Match(
+                    some: v => someCalled = true,
+                    none: () => noneCalled = true);
+
+                var someCalledButNoneNotCalled = someCalled && !noneCalled;
+                Assert.True(someCalledButNoneNotCalled);
             }
         }
 
@@ -115,6 +215,20 @@ namespace Beefeater.Tests
             public void ValueOrMaxMatchesMax()
             {
                 Assert.Equal(int.MaxValue, _option.ValueOr(int.MaxValue));
+            }
+            
+            [Fact]
+            public void ActionMatchCallsNoneButNotSome()
+            {
+                var noneCalled = false;
+                var someCalled = false;
+
+                _option.Match(
+                    some: v => someCalled = true,
+                    none: () => noneCalled = true);
+
+                var someNotCalledButNoneCalled = !someCalled && noneCalled;
+                Assert.True(someNotCalledButNoneCalled);
             }
         }
 
@@ -161,6 +275,20 @@ namespace Beefeater.Tests
                 Option<int> unboxed = _option.Unbox();
                 Assert.Equal(_value, unboxed.ValueOr(int.MinValue));
             }
+
+            [Fact]
+            public void ActionMatchCallsNoneButNotSome()
+            {
+                var noneCalled = false;
+                var someCalled = false;
+
+                _option.Match(
+                    some: v => someCalled = true,
+                    none: () => noneCalled = true);
+                
+                var someCalledButNoneNotCalled = someCalled && !noneCalled;
+                Assert.True(someCalledButNoneNotCalled);
+            }
         }
 
         public class WhenCreatingANoneOfOptionNullableIntThen
@@ -190,6 +318,20 @@ namespace Beefeater.Tests
                 Option<int> unboxed = _option.Unbox();
                 Assert.Equal(int.MinValue, unboxed.ValueOr(int.MinValue));
             }
+
+            [Fact]
+            public void ActionMatchCallsNoneButNotSome()
+            {
+                var noneCalled = false;
+                var someCalled = false;
+
+                _option.Match(
+                    some: v => someCalled = true,
+                    none: () => noneCalled = true);
+
+                var someNotCalledButNoneCalled = !someCalled && noneCalled;
+                Assert.True(someNotCalledButNoneCalled);
+            }
         }
 
         public class WhenCreatingAOptionNullableIntWhenNullThen
@@ -218,6 +360,20 @@ namespace Beefeater.Tests
             {
                 Option<int> unboxed = _option.Unbox();
                 Assert.Equal(int.MinValue, unboxed.ValueOr(int.MinValue));
+            }
+
+            [Fact]
+            public void ActionMatchCallsNoneButNotSome()
+            {
+                var noneCalled = false;
+                var someCalled = false;
+
+                _option.Match(
+                    some: v => someCalled = true,
+                    none: () => noneCalled = true);
+
+                var someNotCalledButNoneCalled = !someCalled && noneCalled;
+                Assert.True(someNotCalledButNoneCalled);
             }
         }
 

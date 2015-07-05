@@ -7,7 +7,18 @@
     <member name="P:Beefeater.NotNull`1.Value">
         <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
     </member>
-    <member name="P:Beefeater.Option`1.ValueOr(`0)">
+    <member name="M:Beefeater.Option`1.ValueOr(`0)">
         <attribute ctor="M:JetBrains.Annotations.PureAttribute.#ctor" />
+        <parameter name="fallbackValue">
+            <attribute ctor="M:JetBrains.Annotations.CanBeNullAttribute.#ctor" />
+        </parameter>
+    </member>
+    <member name="M:Beefeater.Option`1.Match(System.Action{`0},System.Action)">
+        <parameter name="some">
+            <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+        </parameter>
+        <parameter name="none">
+            <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+        </parameter>
     </member>
 </assembly>

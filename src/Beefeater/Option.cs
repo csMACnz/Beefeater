@@ -25,5 +25,19 @@ namespace Beefeater
         {
             get { return new Option<T>(); }
         }
+
+        public void Match(Action<T> some, Action none)
+        {
+            if (some == null) throw new ArgumentNullException("some");
+            if (none == null) throw new ArgumentNullException("none");
+            if (_hasValue)
+            {
+                some(_value);
+            }
+            else
+            {
+                none();
+            }
+        }
     }
 }
