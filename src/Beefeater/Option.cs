@@ -1,4 +1,6 @@
-﻿namespace Beefeater
+﻿using System;
+
+namespace Beefeater
 {
     public struct Option<T>
     {
@@ -14,21 +16,9 @@
             }
         }
 
-        public T Value
+        public T ValueOr(T fallbackValue)
         {
-            get
-            {
-                if (!_hasValue)
-                {
-                    throw new PanicException();
-                }
-                return _value;
-            }
-        }
-
-        public bool HasValue
-        {
-            get { return _hasValue; }
+            return !_hasValue ? fallbackValue : _value;
         }
 
         public static Option<T> None

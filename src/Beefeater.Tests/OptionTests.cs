@@ -1,7 +1,4 @@
-﻿using System;
-using BCLExtensions;
-using Beefeater.Tests.TestHelpers;
-using Xunit;
+﻿using Xunit;
 
 namespace Beefeater.Tests
 {
@@ -16,19 +13,19 @@ namespace Beefeater.Tests
             {
                 _foo = new Foo();
 
-                _option = CreateOption(_foo);
+                _option = new Option<Foo>(_foo);
             }
 
             [Fact]
-            public void OptionHasValueIsTrue()
+            public void ValueOrNullMatchesOriginalFoo()
             {
-                Assert.True(_option.HasValue);
+                Assert.Equal(_foo, _option.ValueOr(null));
             }
 
             [Fact]
-            public void OptionValueMatchesOriginalFoo()
+            public void ValueOrNewFooMatchesOriginalFoo()
             {
-                Assert.Equal(_foo, GetValue(_option));
+                Assert.Equal(_foo, _option.ValueOr(new Foo()));
             }
         }
 
@@ -42,16 +39,17 @@ namespace Beefeater.Tests
             }
 
             [Fact]
-            public void OptionHasValueIsTrue()
+            public void ValueOrNullMatchesNull()
             {
-                Assert.False(_option.HasValue);
+                var newFoo = new Foo();
+                Assert.Equal(null, _option.ValueOr(null));
             }
 
             [Fact]
-            public void GetValueThrowsException()
+            public void ValueOrNewFooMatchesNewFoo()
             {
-                Func<Option<Foo>, Foo> action = GetValue;
-                Assert.Throws<PanicException>(action.AsActionUsing(_option).AsThrowsDelegate());
+                var newFoo = new Foo();
+                Assert.Equal(newFoo, _option.ValueOr(newFoo));
             }
         }
 
@@ -65,16 +63,17 @@ namespace Beefeater.Tests
             }
 
             [Fact]
-            public void OptionHasValueIsTrue()
+            public void ValueOrNullMatchesNull()
             {
-                Assert.False(_option.HasValue);
+                var newFoo = new Foo();
+                Assert.Equal(null, _option.ValueOr(null));
             }
 
             [Fact]
-            public void GetValueThrowsException()
+            public void ValueOrNewFooMatchesNewFoo()
             {
-                Func<Option<Foo>, Foo> action = GetValue;
-                Assert.Throws<PanicException>(action.AsActionUsing(_option).AsThrowsDelegate());
+                var newFoo = new Foo();
+                Assert.Equal(newFoo, _option.ValueOr(newFoo));
             }
         }
 
@@ -87,19 +86,13 @@ namespace Beefeater.Tests
             {
                 _value = 42;
 
-                _option = CreateOption(_value);
+                _option = new Option<int>(_value);
             }
 
             [Fact]
-            public void OptionHasValueIsTrue()
+            public void ValueOrMinMatchesOriginalFoo()
             {
-                Assert.True(_option.HasValue);
-            }
-
-            [Fact]
-            public void OptionValueMatchesOriginalFoo()
-            {
-                Assert.Equal(_value, GetValue(_option));
+                Assert.Equal(_value, _option.ValueOr(int.MinValue));
             }
         }
 
@@ -113,27 +106,119 @@ namespace Beefeater.Tests
             }
 
             [Fact]
-            public void OptionHasValueIsTrue()
+            public void ValueOrMinMatchesMin()
             {
-                Assert.False(_option.HasValue);
+                Assert.Equal(int.MinValue, _option.ValueOr(int.MinValue));
             }
 
             [Fact]
-            public void GetValueThrowsException()
+            public void ValueOrMaxMatchesMax()
             {
-                Func<Option<int>, int> action = GetValue;
-                Assert.Throws<PanicException>(action.AsActionUsing(_option).AsThrowsDelegate());
+                Assert.Equal(int.MaxValue, _option.ValueOr(int.MaxValue));
             }
         }
 
-        private static T GetValue<T>(Option<T> item)
+        public class WhenAnIntOptionIsConstructedWithANullableIntThen
         {
-            return item.Value;
+            private readonly int? _value;
+            private readonly Option<int> _option;
+
+            public WhenAnIntOptionIsConstructedWithANullableIntThen()
+            {
+                _value = 42;
+
+                _option = _value.AsAnOption();
+            }
+
+            [Fact]
+            public void ValueOrMinMatchesOriginalFoo()
+            {
+                Assert.Equal(_value, _option.ValueOr(int.MinValue));
+            }
         }
 
-        private static Option<T> CreateOption<T>(T foo)
+        public class WhenAnOptionWithANullableIntIsConstructedThen
         {
-            return new Option<T>(foo);
+            private readonly int _value;
+            private readonly Option<int?> _option;
+
+            public WhenAnOptionWithANullableIntIsConstructedThen()
+            {
+                _value = 42;
+
+                _option = new Option<int?>(_value);
+            }
+
+            [Fact]
+            public void ValueOrMinMatchesOriginalFoo()
+            {
+                Assert.Equal(_value, _option.ValueOr(int.MinValue));
+            }
+
+            [Fact]
+            public void CanUnboxIntoAnOptionInt()
+            {
+                Option<int> unboxed = _option.Unbox();
+                Assert.Equal(_value, unboxed.ValueOr(int.MinValue));
+            }
+        }
+
+        public class WhenCreatingANoneOfOptionNullableIntThen
+        {
+            private readonly Option<int?> _option;
+
+            public WhenCreatingANoneOfOptionNullableIntThen()
+            {
+                _option = Option<int?>.None;
+            }
+
+            [Fact]
+            public void ValueOrMinMatchesMin()
+            {
+                Assert.Equal(int.MinValue, _option.ValueOr(int.MinValue));
+            }
+
+            [Fact]
+            public void ValueOrMaxMatchesMax()
+            {
+                Assert.Equal(int.MaxValue, _option.ValueOr(int.MaxValue));
+            }
+
+            [Fact]
+            public void CanUnboxIntoAnOptionInt()
+            {
+                Option<int> unboxed = _option.Unbox();
+                Assert.Equal(int.MinValue, unboxed.ValueOr(int.MinValue));
+            }
+        }
+
+        public class WhenCreatingAOptionNullableIntWhenNullThen
+        {
+            private readonly Option<int?> _option;
+
+            public WhenCreatingAOptionNullableIntWhenNullThen()
+            {
+                _option = new Option<int?>(null);
+            }
+
+            [Fact]
+            public void ValueOrMinMatchesMin()
+            {
+                Assert.Equal(int.MinValue, _option.ValueOr(int.MinValue));
+            }
+
+            [Fact]
+            public void ValueOrMaxMatchesMax()
+            {
+                Assert.Equal(int.MaxValue, _option.ValueOr(int.MaxValue));
+            }
+
+            [Fact]
+            public void CanUnboxIntoAnOptionInt()
+            {
+                Option<int> unboxed = _option.Unbox();
+                Assert.Equal(int.MinValue, unboxed.ValueOr(int.MinValue));
+            }
         }
 
         public class Foo

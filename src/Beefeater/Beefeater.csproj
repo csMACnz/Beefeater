@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="NotNull.cs" />
     <Compile Include="Option.cs" />
+    <Compile Include="OptionExtensions.cs" />
     <Compile Include="PanicException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
