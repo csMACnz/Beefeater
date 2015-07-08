@@ -59,8 +59,17 @@
   </Choose>
   <ItemGroup>
     <Compile Include="NotNullTests.cs" />
-    <Compile Include="OptionExtensionsTests.cs" />
-    <Compile Include="OptionTests.cs" />
+    <Compile Include="OptionExtensionsTests\ToNullableTests.cs" />
+    <Compile Include="OptionExtensionsTests\UnboxTests.cs" />
+    <Compile Include="OptionTests\WhenAnOptionWithAValidFooIsConstructedThen.cs" />
+    <Compile Include="OptionExtensionsTests\WhenAnIntOptionIsConstructedWithANullableIntThen.cs" />
+    <Compile Include="OptionTests\WhenAnOptionWithAnIntIsConstructedThen.cs" />
+    <Compile Include="OptionTests\WhenAnOptionWithANullableIntIsConstructedThen.cs" />
+    <Compile Include="OptionTests\WhenCreatingANoneOfOptionFooThen.cs" />
+    <Compile Include="OptionTests\WhenCreatingANoneOfOptionIntThen.cs" />
+    <Compile Include="OptionTests\WhenCreatingANoneOfOptionNullableIntThen.cs" />
+    <Compile Include="OptionTests\WhenCreatingAnOptionFooUsingNullThen.cs" />
+    <Compile Include="OptionTests\WhenCreatingAOptionNullableIntWhenNullThen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestHelpers\ThrowsHelpers.cs" />
   </ItemGroup>
