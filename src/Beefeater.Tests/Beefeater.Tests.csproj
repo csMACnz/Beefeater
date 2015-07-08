@@ -71,6 +71,7 @@
     <Compile Include="OptionTests\WhenCreatingAnOptionFooUsingNullThen.cs" />
     <Compile Include="OptionTests\WhenCreatingAOptionNullableIntWhenNullThen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResultTests.cs" />
     <Compile Include="TestHelpers\ThrowsHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
