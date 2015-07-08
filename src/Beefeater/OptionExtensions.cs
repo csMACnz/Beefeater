@@ -1,4 +1,7 @@
-﻿namespace Beefeater
+﻿using System;
+using System.Threading.Tasks;
+
+namespace Beefeater
 {
     public static class OptionExtensions
     {
@@ -19,6 +22,13 @@
                 return new Option<T>(nullable.Value);
             }
             return Option<T>.None;
+        }
+
+        public static T? ToNullable<T>(this Option<T> option) where T : struct
+        {
+            T? result = null;
+            option.Match(v => result = v, () => { });
+            return result;
         }
     }
 }

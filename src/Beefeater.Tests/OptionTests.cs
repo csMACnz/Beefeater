@@ -270,13 +270,6 @@ namespace Beefeater.Tests
             }
 
             [Fact]
-            public void CanUnboxIntoAnOptionInt()
-            {
-                Option<int> unboxed = _option.Unbox();
-                Assert.Equal(_value, unboxed.ValueOr(int.MinValue));
-            }
-
-            [Fact]
             public void ActionMatchCallsNoneButNotSome()
             {
                 var noneCalled = false;
@@ -313,13 +306,6 @@ namespace Beefeater.Tests
             }
 
             [Fact]
-            public void CanUnboxIntoAnOptionInt()
-            {
-                Option<int> unboxed = _option.Unbox();
-                Assert.Equal(int.MinValue, unboxed.ValueOr(int.MinValue));
-            }
-
-            [Fact]
             public void ActionMatchCallsNoneButNotSome()
             {
                 var noneCalled = false;
@@ -353,13 +339,6 @@ namespace Beefeater.Tests
             public void ValueOrMaxMatchesMax()
             {
                 Assert.Equal(int.MaxValue, _option.ValueOr(int.MaxValue));
-            }
-
-            [Fact]
-            public void CanUnboxIntoAnOptionInt()
-            {
-                Option<int> unboxed = _option.Unbox();
-                Assert.Equal(int.MinValue, unboxed.ValueOr(int.MinValue));
             }
 
             [Fact]
