@@ -82,5 +82,12 @@ namespace Beefeater
                 throw new PanicException();
             }
         }
+
+        public TValue Match<TValue>(Func<TResult, TValue> some, Func<TException, TValue> none)
+        {
+            if (some == null) throw new ArgumentNullException("some");
+            if (none == null) throw new ArgumentNullException("none");
+            return Successful ? some(Value) : none(Exception);
+        }
     }
 }

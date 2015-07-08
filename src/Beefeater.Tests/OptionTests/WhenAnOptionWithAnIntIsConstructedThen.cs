@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using System;
+using Xunit;
 // ReSharper disable ImpureMethodCallOnReadonlyValueField
 
 namespace Beefeater.Tests.OptionTests
@@ -35,7 +36,7 @@ namespace Beefeater.Tests.OptionTests
 
             _option.Match(
                 some: v => someCalled = true,
-                none: () => noneCalled = true);
+                none: (Action)(() => noneCalled = true));
 
             var someCalledButNoneNotCalled = someCalled && !noneCalled;
             Assert.True(someCalledButNoneNotCalled);

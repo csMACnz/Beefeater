@@ -41,8 +41,8 @@ namespace Beefeater.Tests.OptionTests
             var someCalled = false;
 
             _option.Match(
-                v => someCalled = true,
-                () => noneCalled = true);
+                some: v => someCalled = true,
+                none: (Action)(() => noneCalled = true));
 
             var someNotCalledButNoneCalled = !someCalled && noneCalled;
             Assert.True(someNotCalledButNoneCalled);
