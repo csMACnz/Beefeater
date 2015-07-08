@@ -38,6 +38,16 @@ namespace Beefeater.Tests.OptionTests
             Assert.True(someNotCalledButNoneCalled);
         }
 
+        [Fact]
+        public void FuncMatchReturnsExpectedNone()
+        {
+            var result = _option.Match(
+                some: v => v,
+                none: () => null);
+
+            Assert.Equal(null, result);
+        }
+
         public class Foo
         {
         }

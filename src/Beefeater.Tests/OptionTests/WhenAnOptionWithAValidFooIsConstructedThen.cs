@@ -66,6 +66,51 @@ namespace Beefeater.Tests.OptionTests
                 Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(null, null).AsThrowsDelegate());
             }
 
+            [Fact]
+            public void FuncMatchReturnsExpectedSome()
+            {
+                var result = _option.Match(
+                    some: v => v,
+                    none: () => null);
+
+                Assert.Equal(_foo, result);
+            }
+
+            [Fact]
+            public void FuncMatchCallsSomeButNotNone()
+            {
+                var noneCalled = false;
+                var someCalled = false;
+
+                _option.Match(
+                    some: v => { someCalled = true;return 1; },
+                    none: () => { noneCalled = true; return 1; });
+
+                var someCalledButNoneNotCalled = someCalled && !noneCalled;
+                Assert.True(someCalledButNoneNotCalled);
+            }
+
+            [Fact]
+            public void FuncMatchWithNullSomeCaseThrowsException()
+            {
+                Func<Func<Foo, bool>, Func<bool>, bool> callFuncMatch = _option.Match;
+                Assert.Throws<ArgumentNullException>(callFuncMatch.AsActionUsing(null, () => false).AsThrowsDelegate());
+            }
+
+            [Fact]
+            public void FuncMatchWithNullNoneCaseThrowsException()
+            {
+                Func<Func<Foo, bool>, Func<bool>, bool> callFuncMatch = _option.Match;
+                Assert.Throws<ArgumentNullException>(callFuncMatch.AsActionUsing(v => true, null).AsThrowsDelegate());
+            }
+
+            [Fact]
+            public void FuncMatchWithBothCasesNullThrowsException()
+            {
+                Func<Func<Foo, bool>, Func<bool>, bool> callActionMatch = _option.Match;
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(null, null).AsThrowsDelegate());
+            }
+
             public class Foo
             {
             }

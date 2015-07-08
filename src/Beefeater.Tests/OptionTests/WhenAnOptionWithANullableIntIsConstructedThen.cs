@@ -34,5 +34,15 @@ namespace Beefeater.Tests.OptionTests
             var someCalledButNoneNotCalled = someCalled && !noneCalled;
             Assert.True(someCalledButNoneNotCalled);
         }
+
+        [Fact]
+        public void FuncMatchReturnsExpectedSome()
+        {
+            var result = _option.Match(
+                some: v => v,
+                none: () => null);
+
+            Assert.Equal(_value, result);
+        }
     }
 }
