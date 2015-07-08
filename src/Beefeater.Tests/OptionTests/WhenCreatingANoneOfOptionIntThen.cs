@@ -23,7 +23,13 @@ namespace Beefeater.Tests.OptionTests
         {
             Assert.Equal(int.MaxValue, _option.ValueOr(int.MaxValue));
         }
-            
+
+        [Fact]
+        public void ValueOrDefaultReturnsZero()
+        {
+            Assert.Equal(0, _option.ValueOrDefault());
+        }
+           
         [Fact]
         public void ActionMatchCallsNoneButNotSome()
         {

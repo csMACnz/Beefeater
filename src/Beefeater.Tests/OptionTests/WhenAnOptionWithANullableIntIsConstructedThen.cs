@@ -22,6 +22,12 @@ namespace Beefeater.Tests.OptionTests
         }
 
         [Fact]
+        public void ValueOrDefaultMatchesOriginalFoo()
+        {
+            Assert.Equal(_value, _option.ValueOrDefault());
+        }
+          
+        [Fact]
         public void ActionMatchCallsNoneButNotSome()
         {
             var noneCalled = false;

@@ -20,6 +20,12 @@ namespace Beefeater.Tests.OptionTests
         {
             Assert.Equal(_value, _option.ValueOr(int.MinValue));
         }
+           
+        [Fact]
+        public void ValueOrDefaultMatchesOriginalFoo()
+        {
+            Assert.Equal(_value, _option.ValueOrDefault());
+        }
             
         [Fact]
         public void ActionMatchCallsSomeButNotNone()

@@ -47,5 +47,10 @@ namespace Beefeater
                 none();
             }
         }
+
+        public T ValueOrDefault()
+        {
+            return !_hasValue ? default(T) : _value;
+        }
     }
 }
