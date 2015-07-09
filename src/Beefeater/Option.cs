@@ -30,19 +30,19 @@ namespace Beefeater
 
         public static explicit operator T(Option<T> option)
         {
-            if (!option._hasValue)
+            if (option._hasValue)
             {
-                var t = typeof(T);
-
-                if (Nullable.GetUnderlyingType(t) != null)
-                {
-                    // T is a Nullable<>
-                    return default(T);
-                }
-                throw new PanicException();
-
+                return option._value;
             }
-            return option._value;
+
+            var t = typeof(T);
+            if (Nullable.GetUnderlyingType(t) != null)
+            {
+                // T is a Nullable<>
+                return default(T);
+            }
+
+            throw new PanicException();
         }
     }
 }
