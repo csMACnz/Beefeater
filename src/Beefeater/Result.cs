@@ -3,47 +3,47 @@
 namespace Beefeater
 {
     /// <summary>
-    /// Represents a result that is either successful or has an exception.
+    /// Represents a result that is either successful with a value or has an error.
     /// </summary>
     /// <typeparam name="TResult">The result, on success.</typeparam>
-    /// <typeparam name="TException">The Exception, on failure.</typeparam>
-    public struct Result<TResult, TException>
+    /// <typeparam name="TError">The Error, on failure.</typeparam>
+    public struct Result<TResult, TError>
     {
-        private readonly TException _exception;
+        private readonly TError _error;
         private readonly TResult _result;
         private readonly bool _successful;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Result{TResult, TException}"/> class.
+        /// Initializes a new instance of the <see cref="Result{TResult, TError}"/> class.
         /// </summary>
         /// <param name="result">The result on success.</param>
         public Result(TResult result)
         {
             _successful = true;
             _result = result;
-            _exception = default(TException);
+            _error = default(TError);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Result{TResult, TException}"/> class.
+        /// Initializes a new instance of the <see cref="Result{TResult, TError}"/> class.
         /// </summary>
         /// <param name="error">The error on failure.</param>
-        public Result(TException error)
+        public Result(TError error)
         {
             if(error == null) throw new ArgumentNullException("error");
             _successful = false;
-            _exception = error;
+            _error = error;
             _result = default(TResult);
         }
 
         /// <summary>
-        /// Gets a value indicating whether this <see cref="Result{TResult, TException}"/> is successful.
+        /// Gets a value indicating whether this <see cref="Result{TResult, TError}"/> is successful.
         /// </summary>
         public bool Successful
         {
             get
             {
-                if (!_successful && _exception == null)
+                if (!_successful && _error == null)
                 {
                     throw new PanicException();
                 }
@@ -60,7 +60,7 @@ namespace Beefeater
             get
             {
                 if (_successful) return _result;
-                if (_exception == null)
+                if (_error == null)
                 {
                     throw new PanicException();
                 }
@@ -69,25 +69,25 @@ namespace Beefeater
         }
 
         /// <summary>
-        /// Gets the exception.
+        /// Gets the Error.
         /// </summary>
-        /// <exception cref="System.InvalidOperationException">Exception cannot be accessed on unsuccessful Result.</exception>
-        public TException Exception
+        /// <exception cref="System.InvalidOperationException">Error cannot be accessed on unsuccessful Result.</exception>
+        public TError Error
         {
             get
             {
                 if (_successful)
-                    throw new InvalidOperationException("Exception cannot be accessed on unsuccessful Result.");
-                if (_exception != null) return _exception;
+                    throw new InvalidOperationException("Error cannot be accessed on unsuccessful Result.");
+                if (_error != null) return _error;
                 throw new PanicException();
             }
         }
 
-        public TValue Match<TValue>(Func<TResult, TValue> some, Func<TException, TValue> none)
+        public TValue Match<TValue>(Func<TResult, TValue> some, Func<TError, TValue> none)
         {
             if (some == null) throw new ArgumentNullException("some");
             if (none == null) throw new ArgumentNullException("none");
-            return Successful ? some(Value) : none(Exception);
+            return Successful ? some(Value) : none(Error);
         }
     }
 }

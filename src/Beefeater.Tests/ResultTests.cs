@@ -52,7 +52,7 @@ namespace Beefeater.Tests
             [Fact]
             public void ThrowsWhenYouAccessException()
             {
-                AssertThrowsException<Exception, InvalidOperationException>(_result, GetException);
+                AssertThrowsException<Exception, InvalidOperationException>(_result, GetError);
             }
 
             [Fact]
@@ -133,7 +133,7 @@ namespace Beefeater.Tests
             [Fact]
             public void ThrowsWhenYouAccessException()
             {
-                AssertThrowsException<Exception, InvalidOperationException>(_result, GetException);
+                AssertThrowsException<Exception, InvalidOperationException>(_result, GetError);
             }
 
             [Fact]
@@ -280,7 +280,7 @@ namespace Beefeater.Tests
             [Fact]
             public void ThrowsWhenYouAccessException()
             {
-                AssertThrowsException<Exception, PanicException>(_result, GetException);
+                AssertThrowsException<Exception, PanicException>(_result, GetError);
             }
 
             [Fact]
@@ -315,7 +315,7 @@ namespace Beefeater.Tests
             [Fact]
             public void ThrowsWhenYouAccessException()
             {
-                AssertThrowsException<Exception, PanicException>(_result, GetException);
+                AssertThrowsException<Exception, PanicException>(_result, GetError);
             }
 
             [Fact]
@@ -336,9 +336,9 @@ namespace Beefeater.Tests
             Assert.Throws<TException>(action.AsActionUsing(result).AsThrowsDelegate());
         }
 
-        private static Exception GetException(Result<string, Exception> result)
+        private static Exception GetError(Result<string, Exception> result)
         {
-            return result.Exception;
+            return result.Error;
         }
 
         private static string GetValue(Result<string, Exception> result)
