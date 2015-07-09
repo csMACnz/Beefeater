@@ -26,6 +26,8 @@ namespace Beefeater
             get { return new Option<T>(); }
         }
 
+        public bool HasValue { get { return _hasValue; } }
+
         public static explicit operator T(Option<T> option)
         {
             if (!option._hasValue)
@@ -38,36 +40,9 @@ namespace Beefeater
                     return default(T);
                 }
                 throw new PanicException();
-                
+
             }
             return option._value;
-        }
-
-        public TResult Match<TResult>(Func<T, TResult> some, Func<TResult> none)
-        {
-            if (some == null) throw new ArgumentNullException("some");
-            if (none == null) throw new ArgumentNullException("none");
-
-            return _hasValue ? some(_value) : none();
-        }
-
-        public void Match(Action<T> some, Action none)
-        {
-            if (some == null) throw new ArgumentNullException("some");
-            if (none == null) throw new ArgumentNullException("none");
-            if (_hasValue)
-            {
-                some(_value);
-            }
-            else
-            {
-                none();
-            }
-        }
-
-        public T ValueOrDefault()
-        {
-            return !_hasValue ? default(T) : _value;
         }
     }
 }
