@@ -54,51 +54,6 @@ namespace Beefeater.Tests
             {
                 AssertThrowsException<Exception, InvalidOperationException>(_result, GetError);
             }
-
-            [Fact]
-            public void FuncMatchReturnsExpectedValue()
-            {
-                var result = _result.Match(
-                    some: v => v,
-                    none: err => null);
-
-                Assert.Equal(TestResult, result);
-            }
-
-            [Fact]
-            public void FuncMatchCallsSomeButNotNone()
-            {
-                var noneCalled = false;
-                var someCalled = false;
-
-                _result.Match(
-                    some: v => { someCalled = true; return 1; },
-                    none: err => { noneCalled = true; return 1; });
-
-                var someNotCalledAndNoneCalled = someCalled && !noneCalled;
-                Assert.True(someNotCalledAndNoneCalled);
-            }
-
-            [Fact]
-            public void ThrowsWhenFuncMatchHasNullSome()
-            {
-                Func<Func<string, bool>, Func<Exception, bool>, bool> callFuncMatch = _result.Match;
-                Assert.Throws<ArgumentNullException>(callFuncMatch.AsActionUsing(null, e => false).AsThrowsDelegate());
-            }
-
-            [Fact]
-            public void ThrowsWhenFuncMatchHasNullNone()
-            {
-                Func<Func<string, bool>, Func<Exception, bool>, bool> callFuncMatch = _result.Match;
-                Assert.Throws<ArgumentNullException>(callFuncMatch.AsActionUsing(v => true, null).AsThrowsDelegate());
-            }
-
-            [Fact]
-            public void ThrowsWhenFuncMatchHasNullBoth()
-            {
-                Func<Func<string,bool>, Func<Exception,bool>, bool> callFuncMatch = _result.Match;
-                Assert.Throws<ArgumentNullException>(callFuncMatch.AsActionUsing(null, null).AsThrowsDelegate());
-            }
         }
 
         public class ProvidedNullString
@@ -135,51 +90,6 @@ namespace Beefeater.Tests
             {
                 AssertThrowsException<Exception, InvalidOperationException>(_result, GetError);
             }
-
-            [Fact]
-            public void FuncMatchReturnsExpectedValue()
-            {
-                var result = _result.Match(
-                    some: v => true,
-                    none: err => false);
-
-                Assert.True(result);
-            }
-
-            [Fact]
-            public void FuncMatchCallsSomeButNotNone()
-            {
-                var noneCalled = false;
-                var someCalled = false;
-
-                _result.Match(
-                    some: v => { someCalled = true; return 1; },
-                    none: err => { noneCalled = true; return 1; });
-
-                var someNotCalledAndNoneCalled = someCalled && !noneCalled;
-                Assert.True(someNotCalledAndNoneCalled);
-            }
-
-            [Fact]
-            public void ThrowsWhenFuncMatchHasNullSome()
-            {
-                Func<Func<string, bool>, Func<Exception, bool>, bool> callFuncMatch = _result.Match;
-                Assert.Throws<ArgumentNullException>(callFuncMatch.AsActionUsing(null, e => false).AsThrowsDelegate());
-            }
-
-            [Fact]
-            public void ThrowsWhenFuncMatchHasNullNone()
-            {
-                Func<Func<string, bool>, Func<Exception, bool>, bool> callFuncMatch = _result.Match;
-                Assert.Throws<ArgumentNullException>(callFuncMatch.AsActionUsing(v => true, null).AsThrowsDelegate());
-            }
-
-            [Fact]
-            public void ThrowsWhenFuncMatchHasNullBoth()
-            {
-                Func<Func<string, bool>, Func<Exception, bool>, bool> callFuncMatch = _result.Match;
-                Assert.Throws<ArgumentNullException>(callFuncMatch.AsActionUsing(null, null).AsThrowsDelegate());
-            }
         }
 
         public class ProvidedException
@@ -208,51 +118,6 @@ namespace Beefeater.Tests
             public void ThrowsWhenYouAccessResult()
             {
                 AssertThrowsException<string, InvalidOperationException>(_result, GetValue);
-            }
-
-            [Fact]
-            public void FuncMatchReturnsExpectedNull()
-            {
-                var result = _result.Match(
-                    some: v => v,
-                    none: err => null);
-
-                Assert.Equal(null, result);
-            }
-
-            [Fact]
-            public void FuncMatchCallsNoneButNotSome()
-            {
-                var noneCalled = false;
-                var someCalled = false;
-
-                _result.Match(
-                    some: v => { someCalled = true; return 1; },
-                    none: err => { noneCalled = true; return 1; });
-
-                var someNotCalledAndNoneCalled = !someCalled && noneCalled;
-                Assert.True(someNotCalledAndNoneCalled);
-            }
-
-            [Fact]
-            public void ThrowsWhenFuncMatchHasNullSome()
-            {
-                Func<Func<string, bool>, Func<Exception, bool>, bool> callFuncMatch = _result.Match;
-                Assert.Throws<ArgumentNullException>(callFuncMatch.AsActionUsing(null, e => false).AsThrowsDelegate());
-            }
-
-            [Fact]
-            public void ThrowsWhenFuncMatchHasNullNone()
-            {
-                Func<Func<string, bool>, Func<Exception, bool>, bool> callFuncMatch = _result.Match;
-                Assert.Throws<ArgumentNullException>(callFuncMatch.AsActionUsing(v => true, null).AsThrowsDelegate());
-            }
-
-            [Fact]
-            public void ThrowsWhenFuncMatchHasNullBoth()
-            {
-                Func<Func<string, bool>, Func<Exception, bool>, bool> callFuncMatch = _result.Match;
-                Assert.Throws<ArgumentNullException>(callFuncMatch.AsActionUsing(null, null).AsThrowsDelegate());
             }
         }
 
@@ -283,12 +148,6 @@ namespace Beefeater.Tests
                 AssertThrowsException<Exception, PanicException>(_result, GetError);
             }
 
-            [Fact]
-            public void ThrowsWhenYouAccessFuncMatch()
-            {
-                Func<Func<string, bool>, Func<Exception, bool>, bool> callFuncMatch = _result.Match;
-                Assert.Throws<PanicException>(callFuncMatch.AsActionUsing(v => true, e => false).AsThrowsDelegate());
-            }
         }
 
         public class WhenConstructedUsingDefaultConstructor
@@ -316,13 +175,6 @@ namespace Beefeater.Tests
             public void ThrowsWhenYouAccessException()
             {
                 AssertThrowsException<Exception, PanicException>(_result, GetError);
-            }
-
-            [Fact]
-            public void ThrowsWhenYouAccessFuncMatch()
-            {
-                Func<Func<string, bool>, Func<Exception, bool>, bool> callFuncMatch = _result.Match;
-                Assert.Throws<PanicException>(callFuncMatch.AsActionUsing(v => true, e => false).AsThrowsDelegate());
             }
         }
 
