@@ -117,6 +117,14 @@ namespace Beefeater.Tests.OptionTests
                 Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(null, null).AsThrowsDelegate());
             }
 
+            [Fact]
+            public void CanExplicitCastBackToAFoo()
+            {
+                var result = (Foo) _option;
+
+                Assert.Equal(_foo, result);
+            }
+
             public class Foo
             {
             }

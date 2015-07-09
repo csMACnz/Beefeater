@@ -54,5 +54,18 @@ namespace Beefeater.Tests.OptionTests
 
             Assert.Equal(-1, result);
         }
+
+        [Fact]
+        public void ExplicitCastToAnIntThrowsException()
+        {
+            Assert.Throws<PanicException>(() => (int)_option);
+        }
+
+        [Fact]
+        public void ExplicitCastToANullableIntThrowsException()
+        {
+            Assert.Throws<PanicException>(() => (int?)_option);
+        }
+
     }
 }

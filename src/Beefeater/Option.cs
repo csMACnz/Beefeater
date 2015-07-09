@@ -26,6 +26,23 @@ namespace Beefeater
             get { return new Option<T>(); }
         }
 
+        public static explicit operator T(Option<T> option)
+        {
+            if (!option._hasValue)
+            {
+                var t = typeof(T);
+
+                if (Nullable.GetUnderlyingType(t) != null)
+                {
+                    // T is a Nullable<>
+                    return default(T);
+                }
+                throw new PanicException();
+                
+            }
+            return option._value;
+        }
+
         public TResult Match<TResult>(Func<T, TResult> some, Func<TResult> none)
         {
             if (some == null) throw new ArgumentNullException("some");

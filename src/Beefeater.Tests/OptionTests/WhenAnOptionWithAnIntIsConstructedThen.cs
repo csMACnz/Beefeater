@@ -51,5 +51,21 @@ namespace Beefeater.Tests.OptionTests
 
             Assert.Equal(_value, result);
         }
+
+        [Fact]
+        public void CanExplicitCastBackToAnInt()
+        {
+            var result = (int)_option;
+
+            Assert.Equal(_value, result);
+        }
+
+        [Fact]
+        public void CanExplicitCastBackToANullableInt()
+        {
+            var result = (int?)_option;
+
+            Assert.Equal(_value, result);
+        }
     }
 }

@@ -55,6 +55,20 @@ namespace Beefeater.Tests.OptionTests
             Assert.Equal(null, result);
         }
 
+        [Fact]
+        public void ExplicitCastToAnIntThrowsException()
+        {
+            Assert.Throws<InvalidOperationException>(() => (int)_option);
+        }
+
+        [Fact]
+        public void CanExplicitCastBackToANullableInt()
+        {
+            var result = (int?)_option;
+
+            Assert.Equal(null, result);
+        }
+
         public class Foo
         {
         }

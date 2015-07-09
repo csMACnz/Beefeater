@@ -79,6 +79,12 @@ namespace Beefeater.Tests.OptionTests
             Assert.Equal(null, result);
         }
 
+        [Fact]
+        public void ExplicitCastToAnFooThrowsException()
+        {
+            Assert.Throws<PanicException>(() => (Foo) _option);
+        }
+
         public class Foo
         {
         }

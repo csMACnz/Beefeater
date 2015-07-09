@@ -70,6 +70,12 @@ namespace Beefeater.Tests.OptionTests
             Assert.True(someNotCalledAndNoneCalled);
         }
 
+        [Fact]
+        public void ExplicitCastToAFooThrowsException()
+        {
+            Assert.Throws<PanicException>(() => (Foo)_option);
+        }
+
         public class Foo
         {
         }
