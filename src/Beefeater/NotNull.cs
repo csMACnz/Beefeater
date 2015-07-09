@@ -20,5 +20,15 @@
                 return _value;
             }
         }
+
+        public static implicit operator NotNull<T>(T item)
+        {
+            return new NotNull<T>(item);
+        }
+
+        public static implicit operator T(NotNull<T> item)
+        {
+            return item.Value;
+        }
     }
 }

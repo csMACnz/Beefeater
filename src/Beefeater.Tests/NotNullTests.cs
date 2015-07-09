@@ -18,6 +18,28 @@ namespace Beefeater.Tests
         }
 
         [Fact]
+        public void ValidFooCanImplicityCastToNotNullOfFoo()
+        {
+            Foo foo = new Foo();
+
+            NotNull<Foo> result = foo;
+
+            Assert.Equal(foo, result.Value);
+        }
+
+        [Fact]
+        public void ValidFooConstructedNotNullCanImplicityCastBackToFoo()
+        {
+            Foo foo = new Foo();
+
+            NotNull<Foo> item = CreateNotNull(foo);
+
+            Foo result = item;
+
+            Assert.Equal(foo, result);
+        }
+
+        [Fact]
         public void NullReferenceThrowsException()
         {
             Foo foo = null;
