@@ -35,13 +35,6 @@ namespace Beefeater
                 return option._value;
             }
 
-            var t = typeof(T);
-            if (Nullable.GetUnderlyingType(t) != null)
-            {
-                // T is a Nullable<>
-                return default(T);
-            }
-
             throw new PanicException();
         }
     }

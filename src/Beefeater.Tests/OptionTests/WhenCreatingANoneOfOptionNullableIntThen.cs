@@ -1,4 +1,3 @@
-using System;
 using Xunit;
 // ReSharper disable ImpureMethodCallOnReadonlyValueField
 
@@ -32,18 +31,15 @@ namespace Beefeater.Tests.OptionTests
         }
 
         [Fact]
-        [Trait("Category", "NotOnMono")]
         public void ExplicitCastToAnIntThrowsException()
         {
-            Assert.Throws<InvalidOperationException>(() => (int)_option);
+            Assert.Throws<PanicException>(() => (int)_option);
         }
 
         [Fact]
-        public void CanExplicitCastBackToANullableInt()
+        public void ExplicitCastToANullableIntThrowsException()
         {
-            var result = (int?)_option;
-
-            Assert.Equal(null, result);
+            Assert.Throws<PanicException>(() => (int?)_option);
         }
 
     }
