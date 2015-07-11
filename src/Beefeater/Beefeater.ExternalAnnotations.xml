@@ -13,12 +13,28 @@
             <attribute ctor="M:JetBrains.Annotations.CanBeNullAttribute.#ctor" />
         </parameter>
     </member>
-    <member name="M:Beefeater.Option`1.Match(System.Action{`0},System.Action)">
+    <member name="M:Beefeater.OptionExtensions.Match``1(Beefeater.Option{``0},System.Action{``0},System.Action)">
         <parameter name="some">
             <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
         </parameter>
         <parameter name="none">
             <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
         </parameter>
+    </member>
+    <member name="M:Beefeater.OptionExtensions.Match``2(Beefeater.Option{``0},System.Func{``0,``1},System.Func{``1})">
+        <parameter name="some">
+            <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+        </parameter>
+        <parameter name="none">
+            <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+        </parameter>
+    </member>
+    <member name="M:Beefeater.Result`2.#ctor(`1)">
+        <parameter name="error">
+            <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+        </parameter>
+    </member>
+    <member name="P:Beefeater.Result`2.Error">
+        <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
     </member>
 </assembly>
