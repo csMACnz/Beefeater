@@ -32,6 +32,7 @@ namespace Beefeater.Tests.OptionTests
         }
 
         [Fact]
+        [Trait("Category", "NotOnMono")]
         public void ExplicitCastToAnIntThrowsException()
         {
             Assert.Throws<InvalidOperationException>(() => (int)_option);
