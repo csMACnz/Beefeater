@@ -120,9 +120,9 @@ task coverity -precondition { return $env:APPVEYOR_SCHEDULED_BUILD -eq "True" }{
   $PublishCoverity = (Resolve-Path ".\src\packages\PublishCoverity.*\PublishCoverity.exe").ToString()
 
   & cov-build --dir cov-int msbuild "/t:Clean;Build" "/p:Configuration=$configuration" $sln_file
-  
+
   & $PublishCoverity compress -o $coverityFileName
-  
+
   & $PublishCoverity publish -t $env:COVERITY_TOKEN -e $env:COVERITY_EMAIL -z $coverityFileName -d "AppVeyor scheduled build ($env:APPVEYOR_BUILD_VERSION)." --codeVersion $script:nugetVersion
 }
 
@@ -131,6 +131,11 @@ task coverage -depends LocalTestSettings, build, coverage-only
 task coverage-only {
     $opencover = (Resolve-Path ".\src\packages\OpenCover.*\OpenCover.Console.exe").ToString()
     exec { & $opencover -register:user -target:$script:xunit "-targetargs:""src\Beefeater.Tests\bin\$Configuration\Beefeater.Tests.dll"" /noshadow $script:testOptions" -filter:"+[Beefeater*]*" -output:BeefeaterCoverage.xml }
+}
+
+task codecov {
+    (New-Object System.Net.WebClient).DownloadFile("https://codecov.io/bash", ".\CodecovUploader.sh")
+    .\CodecovUploader.sh -t $env:CODECOV_TOKEN -X gcov
 }
 
 task test-coveralls -depends coverage, ResolveCoverallsPath {
@@ -170,14 +175,14 @@ task pack-only -depends SetChocolateyPath {
     $Spec = [xml](get-content "$nuget_pack_dir\$nuspec_filename")
     $Spec.package.metadata.version = ([string]$Spec.package.metadata.version).Replace("{Version}", $script:nugetVersion)
     $Spec.Save("$nuget_pack_dir\$nuspec_filename")
-    
+
     $chocolateyBinDir = Join-Path $script:chocolateyDir -ChildPath "bin";
 	$NuGetExe = Join-Path $chocolateyBinDir -ChildPath "NuGet.exe";
 
     exec { & $NuGetExe pack "$nuget_pack_dir\$nuspec_filename" }
 }
 
-task postbuild -depends pack, archive, coverage-only, coveralls
+task postbuild -depends pack, archive, coverage-only, coveralls, codecov
 
 task appveyor-install -depends GitVersion, RestoreNuGetPackages
 
