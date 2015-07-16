@@ -29,7 +29,7 @@
             <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
         </parameter>
     </member>
-    <member name="M:Beefeater.Result`2.#ctor(`1)">
+    <member name="M:Beefeater.Result`2.OfError(`1)">
         <parameter name="error">
             <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
         </parameter>

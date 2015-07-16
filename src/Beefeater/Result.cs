@@ -83,14 +83,14 @@ namespace Beefeater
             }
         }
 
-        public static Result<TResult, TError> OfValue(TResult happy)
+        public static Result<TResult, TError> OfValue(TResult value)
         {
-            return new Result<TResult, TError>(happy);
+            return new Result<TResult, TError>(value);
         }
 
-        public static Result<TResult, TError> OfError(TError happy)
+        public static Result<TResult, TError> OfError(TError error)
         {
-            return new Result<TResult, TError>(happy);
+            return new Result<TResult, TError>(error);
         }
     }
 }
