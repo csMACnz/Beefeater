@@ -20,6 +20,29 @@ namespace Beefeater.Tests
             Assert.Throws<ArgumentNullException>(function.AsActionUsing(exception).AsThrowsDelegate());
         }
 
+        [Fact]
+        public void ResultOfStringStringCreatedWithOfValueIsCreatedCorrectly()
+        {
+            Result<string,string> result = Result<string, string>.OfValue("Happy");
+
+            Assert.True(result.Successful && result.Value == "Happy");
+        }
+
+        [Fact]
+        public void ResultOfStringStringCreatedWithOfErrorIsCreatedCorrectly()
+        {
+            Result<string,string> result = Result<string, string>.OfError("Error Message");
+
+            Assert.True(!result.Successful && result.Error == "Error Message");
+        }
+
+        [Fact]
+        public void ResultOfStringStringCreatedWithOfErrorOfNullThrows()
+        {
+            Func<string, Result<string, string>> ofError = Result<string, string>.OfError;
+            Assert.Throws<ArgumentNullException>(ofError.AsActionUsing(null).AsThrowsDelegate());
+        }
+
         public class ProvidedValidString
         {
             private const string TestResult = "My Result";
@@ -28,7 +51,7 @@ namespace Beefeater.Tests
             public ProvidedValidString()
             {
                 const string result = TestResult;
-                _result = new Result<string, Exception>(result);
+                _result = Result<string, Exception>.OfValue(result);
             }
 
             [Fact]
@@ -64,7 +87,7 @@ namespace Beefeater.Tests
             {
                 const string result = null;
 
-                _result = new Result<string, Exception>(result);
+                _result = Result<string, Exception>.OfValue(result);
             }
 
             [Fact]
@@ -99,7 +122,7 @@ namespace Beefeater.Tests
             public ProvidedException()
             {
                 Exception result = new Exception();
-                _result = new Result<string, Exception>(result);
+                _result = Result<string, Exception>.OfError(result);
             }
 
             [Fact]
@@ -180,7 +203,7 @@ namespace Beefeater.Tests
 
         private static Result<string, Exception> CreateResultFrom(Exception exception)
         {
-            return new Result<string, Exception>(exception);
+            return Result<string, Exception>.OfError(exception);
         }
 
         private static void AssertThrowsException<T, TException>(Result<string, Exception> result, Func<Result<string, Exception>, T> action) where TException : Exception

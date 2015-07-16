@@ -20,7 +20,7 @@ namespace Beefeater.Tests.ResultExtensionsTests
             public ProvidedValidString()
             {
                 const string result = TestResult;
-                _result = new Result<string, Exception>(result);
+                _result = Result<string, Exception>.OfValue(result);
             }
 
             [Fact]
@@ -78,7 +78,7 @@ namespace Beefeater.Tests.ResultExtensionsTests
             {
                 const string result = null;
 
-                _result = new Result<string, Exception>(result);
+                _result = Result<string, Exception>.OfValue(result);
             }
 
             [Fact]
@@ -135,7 +135,7 @@ namespace Beefeater.Tests.ResultExtensionsTests
             public ProvidedException()
             {
                 Exception result = new Exception();
-                _result = new Result<string, Exception>(result);
+                _result = Result<string, Exception>.OfError(result);
             }
 
             [Fact]
@@ -275,11 +275,11 @@ namespace Beefeater.Tests.ResultExtensionsTests
         {
             get
             {
-                yield return new object[] { new Result<string, Exception>("My Result") };
-                yield return new object[] { new Result<string, Exception>("") };
-                yield return new object[] {new Result<string, Exception>((string)null)};
-                yield return new object[] {new Result<string, Exception>(new Exception())};
-                yield return new object[] {new Result<string, Exception>(new PanicException())};
+                yield return new object[] {Result<string, Exception>.OfValue("My Result")};
+                yield return new object[] {Result<string, Exception>.OfValue("")};
+                yield return new object[] {Result<string, Exception>.OfValue(null)};
+                yield return new object[] {Result<string, Exception>.OfError(new Exception())};
+                yield return new object[] {Result<string, Exception>.OfError(new PanicException())};
             }
         }
     }
