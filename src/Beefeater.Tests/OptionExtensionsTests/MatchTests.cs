@@ -13,18 +13,14 @@ namespace Beefeater.Tests.OptionExtensionsTests
         [InlineData(0)]
         [InlineData(42)]
         [InlineData(-12)]
-        [InlineData(int.MinValue)]
-        [InlineData(int.MaxValue)]
-        public void GivenAnOptionOfIntActionMatchCallsSomeButNotNone(int value)
+        [InlineData(Int32.MinValue)]
+        [InlineData(Int32.MaxValue)]
+        public void GivenAnOptionOfNullableIntActionMatchCallsSomeButNotNone(int value)
         {
-            var option = new Option<int>(value);
+            var option = new Option<int?>(value);
 
-            var noneCalled = false;
-            var someCalled = false;
-
-            option.Match(
-                some: v => someCalled = true,
-                none: (Action)(() => noneCalled = true));
+            bool someCalled, noneCalled;
+            CallActionMatch(option, out someCalled, out noneCalled);
 
             var someCalledButNoneNotCalled = someCalled && !noneCalled;
             Assert.True(someCalledButNoneNotCalled);
@@ -34,70 +30,68 @@ namespace Beefeater.Tests.OptionExtensionsTests
         [InlineData(0)]
         [InlineData(42)]
         [InlineData(-12)]
-        [InlineData(int.MinValue)]
-        [InlineData(int.MaxValue)]
-        public void GivenAnOptionOfIntFuncMatchReturnsExpectedSome(int value)
-        {
-            var option = new Option<int>(value);
-
-            var result = option.Match(
-                some: v => v,
-                none: () => -1);
-
-            Assert.Equal(value, result);
-        }
-
-        [Theory]
-        [InlineData(0)]
-        [InlineData(42)]
-        [InlineData(-12)]
-        [InlineData(int.MinValue)]
-        [InlineData(int.MaxValue)]
+        [InlineData(Int32.MinValue)]
+        [InlineData(Int32.MaxValue)]
         public void GivenAnOptionOfNullableIntActionMatchCallsNoneButNotSome(int value)
         {
             var option = new Option<int?>(value);
-            var noneCalled = false;
-            var someCalled = false;
 
-            option.Match(
-                some: v => someCalled = true,
-                none: (Action)(() => noneCalled = true));
+            bool someCalled, noneCalled;
+            CallActionMatch(option, out someCalled, out noneCalled);
 
             var someCalledButNoneNotCalled = someCalled && !noneCalled;
             Assert.True(someCalledButNoneNotCalled);
         }
-
-        [Theory]
-        [InlineData(0)]
-        [InlineData(42)]
-        [InlineData(-12)]
-        [InlineData(int.MinValue)]
-        [InlineData(int.MaxValue)]
-        public void GivenAnOptionOfNullableIntFuncMatchReturnsExpectedSome(int value)
-        {
-            var option = new Option<int?>(value);
-
-            var result = option.Match(
-                some: v => v,
-                none: () => null);
-
-            Assert.Equal(value, result);
-        }
-
 
         [Fact]
         public void GivenANoneOfOptionIntActionMatchCallsNoneButNotSome()
         {
-            var noneCalled = false;
-            var someCalled = false;
+            bool noneCalled, someCalled;
             var option = Option<int>.None;
 
-            option.Match(
-                some: v => someCalled = true,
-                none: (Action)(() => noneCalled = true));
+            CallActionMatch(option, out someCalled, out noneCalled);
 
             var someNotCalledButNoneCalled = !someCalled && noneCalled;
             Assert.True(someNotCalledButNoneCalled);
+        }
+
+        [Fact]
+        public void ActionMatchCallsNoneButNotSome()
+        {
+            var option = Option<int?>.None;
+            bool noneCalled, someCalled;
+
+            CallActionMatch(option, out someCalled, out noneCalled);
+
+            var someNotCalledButNoneCalled = !someCalled && noneCalled;
+            Assert.True(someNotCalledButNoneCalled);
+        }
+
+        [Fact]
+        public void GivenAnOptionNullableIntWhenNullActionMatchCallsNoneButNotSome()
+        {
+            var option = new Option<int?>(null);
+            bool noneCalled, someCalled;
+
+            CallActionMatch(option, out someCalled, out noneCalled);
+
+            var someNotCalledButNoneCalled = !someCalled && noneCalled;
+            Assert.True(someNotCalledButNoneCalled);
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(42)]
+        [InlineData(-12)]
+        [InlineData(Int32.MinValue)]
+        [InlineData(Int32.MaxValue)]
+        public void GivenAnOptionOfIntFuncMatchReturnsExpectedSome(int value)
+        {
+            var option = new Option<int>(value);
+
+            var result = CallMatchToInt(option);
+
+            Assert.Equal(value, result);
         }
 
         [Fact]
@@ -105,53 +99,74 @@ namespace Beefeater.Tests.OptionExtensionsTests
         {
             var option = Option<int>.None;
 
-            var result = option.Match(
-                some: v => v,
-                none: () => -1);
+            var result = CallMatchToInt(option);
 
             Assert.Equal(-1, result);
         }
 
-        [Fact]
-        public void ActionMatchCallsNoneButNotSome()
+        [Theory]
+        [InlineData(0)]
+        [InlineData(42)]
+        [InlineData(-12)]
+        [InlineData(Int32.MinValue)]
+        [InlineData(Int32.MaxValue)]
+        public void GivenAnOptionOfIntFuncMatchReturnsNullableExpectedSome(int value)
         {
-            var noneCalled = false;
-            var someCalled = false;
-            var option = Option<int?>.None;
+            var option = new Option<int>(value);
 
-            option.Match(
-                some: v => someCalled = true,
-                none: (Action)(() => noneCalled = true));
+            var result = CallMatchToNullableInt(option);
 
-            var someNotCalledButNoneCalled = !someCalled && noneCalled;
-            Assert.True(someNotCalledButNoneCalled);
+            Assert.Equal(value, result);
         }
 
         [Fact]
-        public void FuncMatchReturnsExpectedNone()
+        public void GivenANoneOfOptionIntFuncMatchReturnsNullableExpectedNone()
+        {
+            var option = Option<int>.None;
+
+            var result = CallMatchToNullableInt(option);
+
+            Assert.Equal(null, result);
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(42)]
+        [InlineData(-12)]
+        [InlineData(Int32.MinValue)]
+        [InlineData(Int32.MaxValue)]
+        public void GivenAnOptionOfNullableIntFuncMatchReturnsExpectedSome(int value)
+        {
+            var option = new Option<int?>(value);
+
+            var result = CallMatchNullableToInt(option);
+
+            Assert.Equal(value, result);
+        }
+
+        [Fact]
+        public void GivenANoneOptionNullableIntFuncMatchReturnsExpectedNone()
         {
             var option = Option<int?>.None;
 
-            var result = option.Match(
-                some: v => v,
-                none: () => -1);
+            var result = CallMatchNullableToInt(option);
 
             Assert.Equal(-1, result);
         }
 
-        [Fact]
-        public void GivenAnOptionNullableIntWhenNullActionMatchCallsNoneButNotSome()
+        [Theory]
+        [InlineData(0)]
+        [InlineData(42)]
+        [InlineData(-12)]
+        [InlineData(Int32.MinValue)]
+        [InlineData(Int32.MaxValue)]
+        public void GivenAnOptionOfNullableIntFuncMatchReturnsExpectedSomeAsNullable(int value)
         {
-            var noneCalled = false;
-            var someCalled = false;
-            var option = new Option<int?>(null);
+            var option = new Option<int?>(value);
 
-            option.Match(
-                some: v => someCalled = true,
-                none: (Action)(() => noneCalled = true));
+            var result = CallMatchNullableToNullable(option);
 
-            var someNotCalledButNoneCalled = !someCalled && noneCalled;
-            Assert.True(someNotCalledButNoneCalled);
+            Assert.Equal(value, result);
         }
 
         [Fact]
@@ -159,11 +174,42 @@ namespace Beefeater.Tests.OptionExtensionsTests
         {
             var option = new Option<int?>(null);
 
+            var result = CallMatchNullableToNullable(option);
+
+            Assert.Equal(null, result);
+        }
+
+        private static int? CallMatchNullableToNullable(Option<int?> option)
+        {
             var result = option.Match(
                 some: v => v,
                 none: () => null);
+            return result;
+        }
 
-            Assert.Equal(null, result);
+        private static int CallMatchNullableToInt(Option<int?> option)
+        {
+            var result = option.Match(
+                // ReSharper disable once PossibleInvalidOperationException
+                some: v => v.Value,
+                none: () => -1);
+            return result;
+        }
+
+        private static int CallMatchToInt(Option<int> option)
+        {
+            var result = option.Match(
+                some: v => v,
+                none: () => -1);
+            return result;
+        }
+
+        private static int? CallMatchToNullableInt(Option<int> option)
+        {
+            var result = option.Match<int, int?>(
+                some: v => v,
+                none: () => null);
+            return result;
         }
 
         public class WhenAnOptionWithAValidFooIsConstructedThen
@@ -191,12 +237,9 @@ namespace Beefeater.Tests.OptionExtensionsTests
             [Fact]
             public void FuncMatchCallsSomeButNotNone()
             {
-                var noneCalled = false;
-                var someCalled = false;
-
-                _option.Match(
-                    some: v => { someCalled = true; return 1; },
-                    none: () => { noneCalled = true; return 1; });
+                bool noneCalled;
+                bool someCalled;
+                CallFuncMatch(_option, out someCalled, out noneCalled);
 
                 var someCalledButNoneNotCalled = someCalled && !noneCalled;
                 Assert.True(someCalledButNoneNotCalled);
@@ -240,12 +283,9 @@ namespace Beefeater.Tests.OptionExtensionsTests
             [Fact]
             public void ActionMatchCallsNoneButNotSome()
             {
-                var noneCalled = false;
-                var someCalled = false;
+                bool noneCalled, someCalled;
 
-                _option.Match(
-                    some: v => someCalled = true,
-                    none: (Action)(() => noneCalled = true));
+                CallActionMatch(_option, out someCalled, out noneCalled);
 
                 var someNotCalledButNoneCalled = !someCalled && noneCalled;
                 Assert.True(someNotCalledButNoneCalled);
@@ -264,12 +304,9 @@ namespace Beefeater.Tests.OptionExtensionsTests
             [Fact]
             public void FuncMatchCallsNoneButNotSome()
             {
-                var noneCalled = false;
-                var someCalled = false;
+                bool noneCalled, someCalled;
 
-                _option.Match(
-                    some: v => { someCalled = true; return 1; },
-                    none: () => { noneCalled = true; return 1; });
+                CallFuncMatch(_option, out someCalled, out noneCalled);
 
                 var someNotCalledAndNoneCalled = !someCalled && noneCalled;
                 Assert.True(someNotCalledAndNoneCalled);
@@ -292,12 +329,9 @@ namespace Beefeater.Tests.OptionExtensionsTests
             [Fact]
             public void ActionMatchCallsNoneButNotSome()
             {
-                var noneCalled = false;
-                var someCalled = false;
+                bool noneCalled, someCalled;
 
-                _option.Match(
-                    some: v => someCalled = true,
-                    none: (Action)(() => noneCalled = true));
+                CallActionMatch(_option, out someCalled, out noneCalled);
 
                 var someNotCalledButNoneCalled = !someCalled && noneCalled;
                 Assert.True(someNotCalledButNoneCalled);
@@ -358,6 +392,40 @@ namespace Beefeater.Tests.OptionExtensionsTests
             public class Foo
             {
             }
+        }
+
+        private static void CallFuncMatch<T>(Option<T> option, out bool someCalled, out bool noneCalled)
+        {
+            var none = false;
+            var some = false;
+
+            option.Match(
+                some: v =>
+                {
+                    some = true;
+                    return 1;
+                },
+                none: () =>
+                {
+                    none = true;
+                    return 1;
+                });
+
+            someCalled = some;
+            noneCalled = none;
+        }
+
+        private static void CallActionMatch<T>(Option<T> option, out bool someCalled, out bool noneCalled)
+        {
+            var none = false;
+            var some = false;
+
+            option.Match(
+                some: v => some = true,
+                none: (Action)(() => none = true));
+
+            noneCalled = none;
+            someCalled = some;
         }
     }
 }
