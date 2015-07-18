@@ -334,6 +334,27 @@ namespace Beefeater.Tests.OptionExtensionsTests
                 Assert.Equal(null, result);
             }
 
+            [Fact]
+            public void FuncMatchWithNullSomeCaseThrowsException()
+            {
+                Func<Option<Foo>, Func<Foo, bool>, Func<bool>, bool> callActionMatch = OptionExtensions.Match;
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, () => true ).AsThrowsDelegate());
+            }
+
+            [Fact]
+            public void FuncMatchWithNullNoneCaseThrowsException()
+            {
+                Func<Option<Foo>, Func<Foo, bool>, Func<bool>, bool> callActionMatch = OptionExtensions.Match;
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, v => true, null).AsThrowsDelegate());
+            }
+
+            [Fact]
+            public void FuncMatchWithBothCasesNullThrowsException()
+            {
+                Func<Option<Foo>, Func<Foo, bool>, Func<bool>, bool> callActionMatch = OptionExtensions.Match;
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, null).AsThrowsDelegate());
+            }
+
             public class Foo
             {
             }
