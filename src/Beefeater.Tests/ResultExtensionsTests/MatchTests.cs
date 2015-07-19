@@ -141,7 +141,7 @@ namespace Beefeater.Tests.ResultExtensionsTests
         {
             var result = new Result<string, Exception>();
 
-            Assert.Throws<PanicException>(_callActionMatch.AsActionUsing(result, v => { }, e => { }).AsThrowsDelegate());
+            Assert.Throws<PanicException>(_callActionMatch.AsActionUsing(result, ActionHelpers.EmptyMethod, ActionHelpers.EmptyMethod).AsThrowsDelegate());
         }
 
         [Fact]
@@ -149,7 +149,7 @@ namespace Beefeater.Tests.ResultExtensionsTests
         {
             var result = default(Result<string, Exception>);
 
-            Assert.Throws<PanicException>(_callActionMatch.AsActionUsing(result, v => { }, e => { }).AsThrowsDelegate());
+            Assert.Throws<PanicException>(_callActionMatch.AsActionUsing(result, ActionHelpers.EmptyMethod, ActionHelpers.EmptyMethod).AsThrowsDelegate());
         }
 
         [Fact]
@@ -157,7 +157,7 @@ namespace Beefeater.Tests.ResultExtensionsTests
         {
             var result = new Result<string, Exception>();
 
-            Assert.Throws<PanicException>(_callFuncMatch.AsActionUsing(result, v => true, e => false).AsThrowsDelegate());
+            Assert.Throws<PanicException>(_callFuncMatch.AsActionUsing(result, FuncHelpers.ReturnTrue, FuncHelpers.ReturnFalse).AsThrowsDelegate());
         }
 
         [Fact]
@@ -165,7 +165,7 @@ namespace Beefeater.Tests.ResultExtensionsTests
         {
             var result = default(Result<string, Exception>);
 
-            Assert.Throws<PanicException>(_callFuncMatch.AsActionUsing(result, v => true, e => false).AsThrowsDelegate());
+            Assert.Throws<PanicException>(_callFuncMatch.AsActionUsing(result, FuncHelpers.ReturnTrue, FuncHelpers.ReturnFalse).AsThrowsDelegate());
         }
 
         [Theory]
@@ -198,7 +198,7 @@ namespace Beefeater.Tests.ResultExtensionsTests
         public void ThrowsWhenFuncMatchHasNullSome(Result<string, Exception> result)
         {
             Assert.Throws<ArgumentNullException>(
-                _callFuncMatch.AsActionUsing(result, null, e => false).AsThrowsDelegate());
+                _callFuncMatch.AsActionUsing(result, null, FuncHelpers.ReturnFalse).AsThrowsDelegate());
         }
 
         [Theory]
@@ -206,7 +206,7 @@ namespace Beefeater.Tests.ResultExtensionsTests
         public void ThrowsWhenFuncMatchHasNullNone(Result<string, Exception> result)
         {
             Assert.Throws<ArgumentNullException>(
-                _callFuncMatch.AsActionUsing(result, v => true, null).AsThrowsDelegate());
+                _callFuncMatch.AsActionUsing(result, FuncHelpers.ReturnTrue, null).AsThrowsDelegate());
         }
 
         [Theory]

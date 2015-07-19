@@ -14,6 +14,11 @@ namespace Beefeater.Tests.TestHelpers
             return true;
         }
 
+        public static bool ReturnFalse<T>(T input)
+        {
+            return false;
+        }
+
         [Fact]
         public void ExerciseReturnTrue()
         {
@@ -26,6 +31,13 @@ namespace Beefeater.Tests.TestHelpers
         {
             var result = ReturnTrue("Hello World");
             Assert.True(result);
+        }
+
+        [Fact]
+        public void ExerciseReturnFalseOfT()
+        {
+            var result = ReturnFalse("Hello World");
+            Assert.False(result);
         }
     }
 }
