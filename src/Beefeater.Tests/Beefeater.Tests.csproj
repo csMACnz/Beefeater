@@ -77,6 +77,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultExtensionsTests\MatchTests.cs" />
     <Compile Include="ResultTests.cs" />
+    <Compile Include="TestHelpers\ActionHelpers.cs" />
+    <Compile Include="TestHelpers\FuncHelpers.cs" />
     <Compile Include="TestHelpers\ThrowsHelpers.cs" />
   </ItemGroup>
   <ItemGroup>

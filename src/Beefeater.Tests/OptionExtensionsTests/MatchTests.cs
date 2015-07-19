@@ -214,14 +214,14 @@ namespace Beefeater.Tests.OptionExtensionsTests
             public void ActionMatchWithNullSomeCaseThrowsException()
             {
                 Action<Option<Foo>, Action<Foo>, Action> callActionMatch = OptionExtensions.Match;
-                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, () => { }).AsThrowsDelegate());
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, ActionHelpers.EmptyMethod).AsThrowsDelegate());
             }
 
             [Fact]
             public void ActionMatchWithNullNoneCaseThrowsException()
             {
                 Action<Option<Foo>, Action<Foo>, Action> callActionMatch = OptionExtensions.Match;
-                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, v => { }, null).AsThrowsDelegate());
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, ActionHelpers.EmptyMethod, null).AsThrowsDelegate());
             }
 
             [Fact]
@@ -304,14 +304,14 @@ namespace Beefeater.Tests.OptionExtensionsTests
             public void ActionMatchWithNullSomeCaseThrowsException()
             {
                 Action<Option<Foo>, Action<Foo>, Action> callActionMatch = OptionExtensions.Match;
-                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, () => { }).AsThrowsDelegate());
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, ActionHelpers.EmptyMethod).AsThrowsDelegate());
             }
 
             [Fact]
             public void ActionMatchWithNullNoneCaseThrowsException()
             {
                 Action<Option<Foo>, Action<Foo>, Action> callActionMatch = OptionExtensions.Match;
-                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, v => { }, null).AsThrowsDelegate());
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, ActionHelpers.EmptyMethod, null).AsThrowsDelegate());
             }
 
             [Fact]
@@ -333,14 +333,14 @@ namespace Beefeater.Tests.OptionExtensionsTests
             public void FuncMatchWithNullSomeCaseThrowsException()
             {
                 Func<Option<Foo>, Func<Foo, bool>, Func<bool>, bool> callActionMatch = OptionExtensions.Match;
-                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, () => true ).AsThrowsDelegate());
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, FuncHelpers.ReturnTrue).AsThrowsDelegate());
             }
 
             [Fact]
             public void FuncMatchWithNullNoneCaseThrowsException()
             {
                 Func<Option<Foo>, Func<Foo, bool>, Func<bool>, bool> callActionMatch = OptionExtensions.Match;
-                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, v => true, null).AsThrowsDelegate());
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, FuncHelpers.ReturnTrue, null).AsThrowsDelegate());
             }
 
             [Fact]
@@ -429,6 +429,5 @@ namespace Beefeater.Tests.OptionExtensionsTests
                 none: () => null);
             return result;
         }
-
     }
 }
