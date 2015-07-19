@@ -139,11 +139,11 @@ task codecov {
 }
 
 task test-coveralls -depends coverage, ResolveCoverallsPath {
-    exec { & $coveralls --opencover -i BeefeaterCoverage.xml --dryrun -o coverallsTestOutput.json --repoToken "NOTAREALTOKEN" }
+    exec { & $coveralls --opencover -i BeefeaterCoverage.xml --useRelativePaths --dryrun -o coverallsTestOutput.json --repoToken "NOTAREALTOKEN" }
 }
 
 task coveralls -depends ResolveCoverallsPath -precondition { return -not $env:APPVEYOR_PULL_REQUEST_NUMBER }{
-    exec { & $coveralls --opencover -i BeefeaterCoverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_JOB_ID }
+    exec { & $coveralls --opencover -i BeefeaterCoverage.xml --useRelativePaths --repoToken $env:COVERALLS_REPO_TOKEN --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_JOB_ID }
 }
 
 task archive -depends build, archive-only
