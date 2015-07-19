@@ -65,6 +65,7 @@
     <Compile Include="OptionExtensionsTests\MatchTests.cs" />
     <Compile Include="OptionExtensionsTests\ToNullableTests.cs" />
     <Compile Include="OptionExtensionsTests\UnboxTests.cs" />
+    <Compile Include="OptionTests\GeneralTests.cs" />
     <Compile Include="OptionTests\WhenAnOptionWithAValidFooIsConstructedThen.cs" />
     <Compile Include="OptionExtensionsTests\AsAnOptionTests.cs" />
     <Compile Include="OptionTests\WhenAnOptionWithAnIntIsConstructedThen.cs" />

@@ -46,4 +46,55 @@ You can install the nuget package using `Install-Package Beefeater` or by headin
 Examples
 --------
 
-    //TODO
+    public Option<string> Modify(NotNull<string> first, Option<string> second)
+    {
+        return second.Match(
+            v => first + v,
+            () => Option<string>.None);
+    }
+
+    var x = Modify("Hello", "World");
+    var x = Modify("Hello", null);
+
+----
+
+    public enum ErrorResult
+    {
+        UnknownError,
+        FileNotFound,
+        Unauthorized
+    }
+    public Result<bool, ErrorResult> Create(NotNull<string> filePath, Option<string> second)
+    {
+        FileStream stream;
+        try
+        {
+            stream = File.OpenWrite(filePath);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Result<bool, ErrorResult>.OfError(ErrorResult.Unauthorized);
+        }
+        catch (FileNotFoundException ex)
+        {
+            return Result<bool, ErrorResult>.OfError(ErrorResult.FileNotFound);
+        }
+        catch (Exception ex)
+        {
+            return Result<bool, ErrorResult>.OfError(ErrorResult.UnknownError);
+        }
+        using (stream)
+        {
+            return second.Match(
+                v =>
+                {
+                    using (var writer = new StreamWriter(stream))
+                    {
+                        writer.WriteLine(v);
+                    }
+                    return Result<bool, ErrorResult>.OfValue(true);
+                },
+                () => Result<bool, ErrorResult>.OfValue(false));
+        }
+    }
+
