@@ -11,7 +11,6 @@ namespace Beefeater.Tests.ResultExtensionsTests
 {
     public class MatchTests
     {
-
         public class ProvidedValidString
         {
             private const string TestResult = "My Result";
@@ -26,9 +25,7 @@ namespace Beefeater.Tests.ResultExtensionsTests
             [Fact]
             public void FuncMatchReturnsExpectedValue()
             {
-                var result = _result.Match(
-                    some: v => v,
-                    none: err => null);
+                var result = CallMatchToValue(_result);
 
                 Assert.Equal(TestResult, result);
             }
@@ -36,12 +33,9 @@ namespace Beefeater.Tests.ResultExtensionsTests
             [Fact]
             public void ActionMatchCallsSomeButNotNone()
             {
-                var noneCalled = false;
-                var someCalled = false;
+                bool noneCalled, someCalled;
 
-                _result.Match(
-                    some: (Action<string>) (v => someCalled = true),
-                    none: err => noneCalled = true);
+                CallActionMatch(_result, out someCalled, out noneCalled);
 
                 var someNotCalledAndNoneCalled = someCalled && !noneCalled;
                 Assert.True(someNotCalledAndNoneCalled);
@@ -50,20 +44,9 @@ namespace Beefeater.Tests.ResultExtensionsTests
             [Fact]
             public void FuncMatchCallsSomeButNotNone()
             {
-                var noneCalled = false;
-                var someCalled = false;
+                bool noneCalled, someCalled;
 
-                _result.Match(
-                    some: v =>
-                    {
-                        someCalled = true;
-                        return 1;
-                    },
-                    none: err =>
-                    {
-                        noneCalled = true;
-                        return 1;
-                    });
+                CallFuncMatch(_result, out someCalled, out noneCalled);
 
                 var someNotCalledAndNoneCalled = someCalled && !noneCalled;
                 Assert.True(someNotCalledAndNoneCalled);
@@ -84,9 +67,7 @@ namespace Beefeater.Tests.ResultExtensionsTests
             [Fact]
             public void FuncMatchReturnsExpectedValue()
             {
-                var result = _result.Match(
-                    some: v => true,
-                    none: err => false);
+                var result = CallMatchToBool(_result);
 
                 Assert.True(result);
             }
@@ -94,12 +75,9 @@ namespace Beefeater.Tests.ResultExtensionsTests
             [Fact]
             public void ActionMatchCallsSomeButNotNone()
             {
-                var noneCalled = false;
-                var someCalled = false;
+                bool noneCalled, someCalled;
 
-                _result.Match(
-                    some: (Action<string>) (v => someCalled = true),
-                    none: err => noneCalled = true);
+                CallActionMatch(_result, out someCalled, out noneCalled);
 
                 var someNotCalledAndNoneCalled = someCalled && !noneCalled;
                 Assert.True(someNotCalledAndNoneCalled);
@@ -108,20 +86,9 @@ namespace Beefeater.Tests.ResultExtensionsTests
             [Fact]
             public void FuncMatchCallsSomeButNotNone()
             {
-                var noneCalled = false;
-                var someCalled = false;
+                bool noneCalled, someCalled;
 
-                _result.Match(
-                    some: v =>
-                    {
-                        someCalled = true;
-                        return 1;
-                    },
-                    none: err =>
-                    {
-                        noneCalled = true;
-                        return 1;
-                    });
+                CallFuncMatch(_result, out someCalled, out noneCalled);
 
                 var someNotCalledAndNoneCalled = someCalled && !noneCalled;
                 Assert.True(someNotCalledAndNoneCalled);
@@ -141,9 +108,7 @@ namespace Beefeater.Tests.ResultExtensionsTests
             [Fact]
             public void FuncMatchReturnsExpectedNull()
             {
-                var result = _result.Match(
-                    some: v => v,
-                    none: err => null);
+                var result = CallMatchToValue(_result);
 
                 Assert.Equal(null, result);
             }
@@ -151,12 +116,9 @@ namespace Beefeater.Tests.ResultExtensionsTests
             [Fact]
             public void ActionMatchCallsNoneButNotSome()
             {
-                var noneCalled = false;
-                var someCalled = false;
+                bool noneCalled, someCalled;
 
-                _result.Match(
-                    some: (Action<string>) (v => someCalled = true),
-                    none: err => noneCalled = true);
+                CallActionMatch(_result, out someCalled, out noneCalled);
 
                 var someNotCalledAndNoneCalled = !someCalled && noneCalled;
                 Assert.True(someNotCalledAndNoneCalled);
@@ -165,20 +127,9 @@ namespace Beefeater.Tests.ResultExtensionsTests
             [Fact]
             public void FuncMatchCallsNoneButNotSome()
             {
-                var noneCalled = false;
-                var someCalled = false;
+                bool noneCalled, someCalled;
 
-                _result.Match(
-                    some: v =>
-                    {
-                        someCalled = true;
-                        return 1;
-                    },
-                    none: err =>
-                    {
-                        noneCalled = true;
-                        return 1;
-                    });
+                CallFuncMatch(_result, out someCalled, out noneCalled);
 
                 var someNotCalledAndNoneCalled = !someCalled && noneCalled;
                 Assert.True(someNotCalledAndNoneCalled);
@@ -281,6 +232,56 @@ namespace Beefeater.Tests.ResultExtensionsTests
                 yield return new object[] {Result<string, Exception>.OfError(new Exception())};
                 yield return new object[] {Result<string, Exception>.OfError(new PanicException())};
             }
+        }
+
+        private static void CallFuncMatch<TValue, TError>(Result<TValue, TError> result, out bool someCalled, out bool noneCalled)
+        {
+            var none = false;
+            var some = false;
+
+            result.Match(
+                some: v =>
+                {
+                    some = true;
+                    return 1;
+                },
+                none: e =>
+                {
+                    none = true;
+                    return 1;
+                });
+
+            someCalled = some;
+            noneCalled = none;
+        }
+
+        private static void CallActionMatch<TValue, TError>(Result<TValue, TError> result, out bool someCalled, out bool noneCalled)
+        {
+            var none = false;
+            var some = false;
+
+            result.Match(
+                some: v => some = true,
+                none: (Action<TError>)(e => none = true));
+
+            noneCalled = none;
+            someCalled = some;
+        }
+
+        private static TValue CallMatchToValue<TValue, TError>(Result<TValue, TError> result) where TValue : class
+        {
+            var value = result.Match(
+                some: v => v,
+                none: e => null);
+            return value;
+        }
+
+        private static bool CallMatchToBool<TValue, TError>(Result<TValue, TError> result)
+        {
+            var value = result.Match(
+                some: v => true,
+                none: e => false);
+            return value;
         }
     }
 }

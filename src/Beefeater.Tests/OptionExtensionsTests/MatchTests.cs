@@ -179,39 +179,6 @@ namespace Beefeater.Tests.OptionExtensionsTests
             Assert.Equal(null, result);
         }
 
-        private static int? CallMatchNullableToNullable(Option<int?> option)
-        {
-            var result = option.Match(
-                some: v => v,
-                none: () => null);
-            return result;
-        }
-
-        private static int CallMatchNullableToInt(Option<int?> option)
-        {
-            var result = option.Match(
-                // ReSharper disable once PossibleInvalidOperationException
-                some: v => v.Value,
-                none: () => -1);
-            return result;
-        }
-
-        private static int CallMatchToInt(Option<int> option)
-        {
-            var result = option.Match(
-                some: v => v,
-                none: () => -1);
-            return result;
-        }
-
-        private static int? CallMatchToNullableInt(Option<int> option)
-        {
-            var result = option.Match<int, int?>(
-                some: v => v,
-                none: () => null);
-            return result;
-        }
-
         public class WhenAnOptionWithAValidFooIsConstructedThen
         {
             private readonly Foo _foo;
@@ -227,9 +194,7 @@ namespace Beefeater.Tests.OptionExtensionsTests
             [Fact]
             public void FuncMatchReturnsExpectedSome()
             {
-                var result = _option.Match(
-                    some: v => v,
-                    none: () => null);
+                var result = CallMatchTo(_option);
 
                 Assert.Equal(_foo, result);
             }
@@ -294,9 +259,7 @@ namespace Beefeater.Tests.OptionExtensionsTests
             [Fact]
             public void FuncMatchReturnsExpectedNone()
             {
-                var result = _option.Match(
-                    some: v => v,
-                    none: () => null);
+                var result = CallMatchTo(_option);
 
                 Assert.Equal(null, result);
             }
@@ -361,9 +324,7 @@ namespace Beefeater.Tests.OptionExtensionsTests
             [Fact]
             public void FuncMatchReturnsExpectedNone()
             {
-                var result = _option.Match(
-                    some: v => v,
-                    none: () => null);
+                var result = CallMatchTo(_option);
 
                 Assert.Equal(null, result);
             }
@@ -427,5 +388,47 @@ namespace Beefeater.Tests.OptionExtensionsTests
             noneCalled = none;
             someCalled = some;
         }
+
+        private static T CallMatchTo<T>(Option<T> option) where T : class
+        {
+            var result = option.Match(
+                some: v => v,
+                none: () => null);
+            return result;
+        }
+
+        private static int? CallMatchNullableToNullable(Option<int?> option)
+        {
+            var result = option.Match(
+                some: v => v,
+                none: () => null);
+            return result;
+        }
+
+        private static int CallMatchNullableToInt(Option<int?> option)
+        {
+            var result = option.Match(
+                // ReSharper disable once PossibleInvalidOperationException
+                some: v => v.Value,
+                none: () => -1);
+            return result;
+        }
+
+        private static int CallMatchToInt(Option<int> option)
+        {
+            var result = option.Match(
+                some: v => v,
+                none: () => -1);
+            return result;
+        }
+
+        private static int? CallMatchToNullableInt(Option<int> option)
+        {
+            var result = option.Match<int, int?>(
+                some: v => v,
+                none: () => null);
+            return result;
+        }
+
     }
 }
