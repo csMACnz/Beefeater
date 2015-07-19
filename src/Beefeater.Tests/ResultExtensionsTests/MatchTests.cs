@@ -106,6 +106,14 @@ namespace Beefeater.Tests.ResultExtensionsTests
             }
 
             [Fact]
+            public void FuncMatchReturnsExpectedValue()
+            {
+                var result = CallMatchToBool(_result);
+
+                Assert.False(result);
+            }
+
+            [Fact]
             public void FuncMatchReturnsExpectedNull()
             {
                 var result = CallMatchToValue(_result);
