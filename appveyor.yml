@@ -6,6 +6,8 @@ environment:
     secure: vSFoGG7ATay42KjvJXLqMl/hBthqsp6ZLr6ulbMRFxk=
   COVERITY_EMAIL:
     secure: UEqRjr6WeJQzmybaDQ1x8vGceHZcnwS/K67lMvLKaiE=
+  CODECOV_TOKEN:
+    secure: KwP1bxxS2EEUh3lSWIc2P5BLBKrjbC9xDKvtN5YjIQ1YqxGAYm+mej73D2KxyK9F
 install:
 - ps: .\build.environment.ps1
 - ps: psake .\build.tasks.ps1 appveyor-install
@@ -18,3 +20,19 @@ artifacts:
   name: BeefeaterCoverage.xml
 - path: Beefeater.*.zip
 - path: Beefeater.*.nupkg
+deploy:
+- provider: GitHub
+  release: $($env:GitVersion_SemVer)
+  auth_token:
+    secure: hH6A9i7v+sf5mZy9FLQVG7n4UpLWkUhpshIsia7sGi1ONr+iMKroqjkJk0Hsi3nK
+  artifact: /.*\.nupkg/
+  prerelease: true
+  on:
+    branch: /release-.*/
+    APPVEYOR_REPO_TAG: true
+- provider: NuGet
+  api_key:
+    secure: 4XLKYHbHXYJuc9SCTYZt5VzxE/XDBpjWSttRIK3ZGux5TwIgAnhMBamo16fjVmzS
+  on:
+    branch: /release-.*/
+    APPVEYOR_REPO_TAG: true

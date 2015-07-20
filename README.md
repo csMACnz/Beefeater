@@ -9,7 +9,7 @@ Guard your methods' Ins and Outs.
 [![NuGet](https://img.shields.io/nuget/dt/Beefeater.svg)](https://www.nuget.org/packages/Beefeater)
 [![Gratipay](http://img.shields.io/gratipay/csMACnz.svg)](https://gratipay.com/csMACnz/)
 [![Source Browser](https://img.shields.io/badge/Browse-Source-green.svg)](http://sourcebrowser.io/Browse/csMACnz/Beefeater)
-[![Badges](http://img.shields.io/:badges-14/14-ff6799.svg)](https://github.com/badges/badgerbadgerbadger)
+[![Badges](http://img.shields.io/:badges-15/15-ff6799.svg)](https://github.com/badges/badgerbadgerbadger)
 
 [![Stories in Ready](https://badge.waffle.io/csmacnz/Beefeater.png?label=ready&title=Ready)](https://waffle.io/csmacnz/Beefeater)
 [![Stories in progress](https://badge.waffle.io/csmacnz/Beefeater.png?label=in%20progress&title=In%20Progress)](https://waffle.io/csmacnz/Beefeater)
@@ -20,6 +20,7 @@ Guard your methods' Ins and Outs.
 [![Travis Build Status](https://img.shields.io/travis/csMACnz/Beefeater.svg)](https://travis-ci.org/csMACnz/Beefeater)
 
 [![Coverage Status](https://img.shields.io/coveralls/csMACnz/Beefeater.svg)](https://coveralls.io/r/csMACnz/Beefeater?branch=master)
+[![codecov.io](http://codecov.io/github/csMACnz/Beefeater/coverage.svg?branch=master)](http://codecov.io/github/csMACnz/Beefeater?branch=master)
 [![Coverity Scan Build Status](https://img.shields.io/coverity/scan/5462.svg)](https://scan.coverity.com/projects/5462)
 
 This library contains helpers to add semantics to the optionality of your parameters and results from method calls.
@@ -45,4 +46,55 @@ You can install the nuget package using `Install-Package Beefeater` or by headin
 Examples
 --------
 
-    //TODO
+    public Option<string> Modify(NotNull<string> first, Option<string> second)
+    {
+        return second.Match(
+            v => first + v,
+            () => Option<string>.None);
+    }
+
+    var x = Modify("Hello", "World");
+    var x = Modify("Hello", null);
+
+----
+
+    public enum ErrorResult
+    {
+        UnknownError,
+        FileNotFound,
+        Unauthorized
+    }
+    public Result<bool, ErrorResult> Create(NotNull<string> filePath, Option<string> second)
+    {
+        FileStream stream;
+        try
+        {
+            stream = File.OpenWrite(filePath);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return ErrorResult.Unauthorized;
+        }
+        catch (FileNotFoundException ex)
+        {
+            return ErrorResult.FileNotFound;
+        }
+        catch (Exception ex)
+        {
+            return ErrorResult.UnknownError;
+        }
+        using (stream)
+        {
+            return second.Match(
+                v =>
+                {
+                    using (var writer = new StreamWriter(stream))
+                    {
+                        writer.WriteLine(v);
+                    }
+                    return true;
+                },
+                () => false);
+        }
+    }
+

@@ -28,6 +28,11 @@ namespace Beefeater
 
         public bool HasValue { get { return _hasValue; } }
 
+        public static implicit operator Option<T>(T item)
+        {
+            return new Option<T>(item);
+        }
+
         public static explicit operator T(Option<T> option)
         {
             if (option._hasValue)

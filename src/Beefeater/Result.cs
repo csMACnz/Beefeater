@@ -17,7 +17,7 @@ namespace Beefeater
         /// Initializes a new instance of the <see cref="Result{TResult, TError}"/> class.
         /// </summary>
         /// <param name="result">The result on success.</param>
-        public Result(TResult result)
+        private Result(TResult result)
         {
             _successful = true;
             _result = result;
@@ -28,7 +28,7 @@ namespace Beefeater
         /// Initializes a new instance of the <see cref="Result{TResult, TError}"/> class.
         /// </summary>
         /// <param name="error">The error on failure.</param>
-        public Result(TError error)
+        private Result(TError error)
         {
             if(error == null) throw new ArgumentNullException("error");
             _successful = false;
@@ -81,6 +81,26 @@ namespace Beefeater
                 if (_error != null) return _error;
                 throw new PanicException();
             }
+        }
+
+        public static implicit operator Result<TResult,TError>(TResult value)
+        {
+            return new Result<TResult, TError>(value);
+        }
+
+        public static implicit operator Result<TResult, TError>(TError error)
+        {
+            return new Result<TResult, TError>(error);
+        }
+
+        public static Result<TResult, TError> OfValue(TResult value)
+        {
+            return new Result<TResult, TError>(value);
+        }
+
+        public static Result<TResult, TError> OfError(TError error)
+        {
+            return new Result<TResult, TError>(error);
         }
     }
 }
