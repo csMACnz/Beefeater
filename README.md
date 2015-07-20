@@ -73,15 +73,15 @@ Examples
         }
         catch (UnauthorizedAccessException ex)
         {
-            return Result<bool, ErrorResult>.OfError(ErrorResult.Unauthorized);
+            return ErrorResult.Unauthorized;
         }
         catch (FileNotFoundException ex)
         {
-            return Result<bool, ErrorResult>.OfError(ErrorResult.FileNotFound);
+            return ErrorResult.FileNotFound;
         }
         catch (Exception ex)
         {
-            return Result<bool, ErrorResult>.OfError(ErrorResult.UnknownError);
+            return ErrorResult.UnknownError;
         }
         using (stream)
         {
@@ -92,9 +92,9 @@ Examples
                     {
                         writer.WriteLine(v);
                     }
-                    return Result<bool, ErrorResult>.OfValue(true);
+                    return true;
                 },
-                () => Result<bool, ErrorResult>.OfValue(false));
+                () => false);
         }
     }
 

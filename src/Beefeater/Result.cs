@@ -83,6 +83,16 @@ namespace Beefeater
             }
         }
 
+        public static implicit operator Result<TResult,TError>(TResult value)
+        {
+            return new Result<TResult, TError>(value);
+        }
+
+        public static implicit operator Result<TResult, TError>(TError error)
+        {
+            return new Result<TResult, TError>(error);
+        }
+
         public static Result<TResult, TError> OfValue(TResult value)
         {
             return new Result<TResult, TError>(value);

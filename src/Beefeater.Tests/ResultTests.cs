@@ -43,6 +43,26 @@ namespace Beefeater.Tests
             Assert.Throws<ArgumentNullException>(ofError.AsActionUsing(null).AsThrowsDelegate());
         }
 
+        [Fact]
+        public void ValidFooCanImplicityCastToResultOfFooString()
+        {
+            var foo = new Foo();
+
+            Result<Foo, string> result = foo;
+
+            Assert.Equal(foo, result.Value);
+        }
+
+        [Fact]
+        public void StringCanImplicityCastToResultOfFooString()
+        {
+            const string error = "Hello";
+
+            Result<Foo, string> result = error;
+
+            Assert.Equal(error, result.Error);
+        }
+
         public class ProvidedValidString
         {
             private const string TestResult = "My Result";
@@ -225,5 +245,7 @@ namespace Beefeater.Tests
         {
             return result.Successful;
         }
+
+        private class Foo { }
     }
 }

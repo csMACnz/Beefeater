@@ -13,6 +13,7 @@ namespace Beefeater.Tests.OptionTests
 
             Assert.Equal(foo, (Foo)result);
         }
+
         [Fact]
         public void NullFooCanImplicityCastToNoneOptionOfFoo()
         {
