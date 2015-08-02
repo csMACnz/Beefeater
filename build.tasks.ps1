@@ -129,7 +129,7 @@ task coverity -precondition { return $env:APPVEYOR_SCHEDULED_BUILD -eq "True" }{
 task coverage -depends LocalTestSettings, build, coverage-only
 
 task coverage-only {
-    $opencover = (Resolve-Path ".\src\packages\OpenCover.*\OpenCover.Console.exe").ToString()
+    $opencover = (Resolve-Path ".\src\packages\OpenCover.*\tools\OpenCover.Console.exe").ToString()
     exec { & $opencover -register:user -target:$script:xunit "-targetargs:""src\Beefeater.Tests\bin\$Configuration\Beefeater.Tests.dll"" /noshadow $script:testOptions" -filter:"+[Beefeater*]*" -output:BeefeaterCoverage.xml }
 }
 
