@@ -58,7 +58,7 @@ task LocalTestSettings {
 }
 
 task ResolveCoverallsPath {
-    $script:coveralls = (Resolve-Path "src/packages/coveralls.net.*/csmacnz.coveralls.exe").ToString()
+    $script:coveralls = (Resolve-Path "src/packages/coveralls.net.*/tools/csmacnz.coveralls.exe").ToString()
 }
 
 task AppVeyorEnvironmentSettings {
