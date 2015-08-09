@@ -117,7 +117,7 @@ task test-coverity -depends setup-coverity-local, coverity
 
 task coverity -precondition { return $env:APPVEYOR_SCHEDULED_BUILD -eq "True" }{
   $coverityFileName = "Beefeater.coverity.$script:nugetVersion.zip"
-  $PublishCoverity = (Resolve-Path ".\src\packages\PublishCoverity.*\PublishCoverity.exe").ToString()
+  $PublishCoverity = (Resolve-Path ".\src\packages\PublishCoverity.*\tools\PublishCoverity.exe").ToString()
 
   & cov-build --dir cov-int msbuild "/t:Clean;Build" "/p:Configuration=$configuration" $sln_file
 
