@@ -6,7 +6,7 @@ Guard your methods' Ins and Outs.
 
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://csmacnz.mit-license.org)
 [![NuGet](https://img.shields.io/nuget/v/Beefeater.svg)](https://www.nuget.org/packages/Beefeater)
-[![NuGet](https://img.shields.io/nuget/dt/Beefeater.svg)](https://www.nuget.org/packages/Beefeater)
+[![NuGet](https://buildstats.info/nuget/Beefeater)](https://www.nuget.org/packages/Beefeater)
 [![Gratipay](http://img.shields.io/gratipay/csMACnz.svg)](https://gratipay.com/csMACnz/)
 [![Source Browser](https://img.shields.io/badge/Browse-Source-green.svg)](http://sourcebrowser.io/Browse/csMACnz/Beefeater)
 [![Badges](http://img.shields.io/:badges-15/15-ff6799.svg)](https://github.com/badges/badgerbadgerbadger)
