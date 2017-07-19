@@ -29,9 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Beefeater.ExternalAnnotations.xml">
+    <None Update="Beefeater.ExternalAnnotations.xml" Pack="true"  PackagePath="lib\$(TargetFramework)\Beefeater.ExternalAnnotations.xml" >
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
   </ItemGroup>
 
 </Project>
