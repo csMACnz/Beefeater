@@ -1,8 +1,13 @@
 language: csharp
-solution: ./src/Beefeater.sln
+mono: none
+dotnet: 1.0.4
+dist: trusty
+sudo: false
 install:
-  - nuget restore ./src/Beefeater.sln
-  - chmod +x ./src/packages/xunit.runners.1.9.2/tools/xunit.console.clr4.exe
+  - dotnet restore ./src/Beefeater.sln
 script:
-  - xbuild /p:Configuration=Release ./src/Beefeater.sln
-  - mono ./src/packages/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./src/Beefeater.Tests/bin/Release/Beefeater.Tests.dll /-trait "Category=NotOnMono"
+  - dotnet build ./src/Beefeater.sln
+  - dotnet test ./src/Beefeater.Tests/Beefeater.Tests.csproj
+cache:
+  directories:
+  - ./BuildPackages
