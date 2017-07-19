@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using Xunit;
-using Xunit.Extensions;
 
 namespace Beefeater.Tests.OptionExtensionsTests
 {

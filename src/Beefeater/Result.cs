@@ -30,7 +30,7 @@ namespace Beefeater
         /// <param name="error">The error on failure.</param>
         private Result(TError error)
         {
-            if(error == null) throw new ArgumentNullException("error");
+            if(error == null) throw new ArgumentNullException(nameof(error));
             _successful = false;
             _error = error;
             _result = default(TResult);

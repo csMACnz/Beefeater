@@ -2,7 +2,7 @@
 using BCLExtensions;
 using Beefeater.Tests.TestHelpers;
 using Xunit;
-using Xunit.Extensions;
+
 // ReSharper disable ImpureMethodCallOnReadonlyValueField
 
 namespace Beefeater.Tests.OptionExtensionsTests
@@ -18,9 +18,7 @@ namespace Beefeater.Tests.OptionExtensionsTests
         public void GivenAnOptionOfNullableIntActionMatchCallsSomeButNotNone(int value)
         {
             var option = new Option<int?>(value);
-
-            bool someCalled, noneCalled;
-            CallActionMatch(option, out someCalled, out noneCalled);
+            CallActionMatch(option, out bool someCalled, out bool noneCalled);
 
             var someCalledButNoneNotCalled = someCalled && !noneCalled;
             Assert.True(someCalledButNoneNotCalled);
@@ -35,9 +33,7 @@ namespace Beefeater.Tests.OptionExtensionsTests
         public void GivenAnOptionOfNullableIntActionMatchCallsNoneButNotSome(int value)
         {
             var option = new Option<int?>(value);
-
-            bool someCalled, noneCalled;
-            CallActionMatch(option, out someCalled, out noneCalled);
+            CallActionMatch(option, out bool someCalled, out bool noneCalled);
 
             var someCalledButNoneNotCalled = someCalled && !noneCalled;
             Assert.True(someCalledButNoneNotCalled);
@@ -46,10 +42,9 @@ namespace Beefeater.Tests.OptionExtensionsTests
         [Fact]
         public void GivenANoneOfOptionIntActionMatchCallsNoneButNotSome()
         {
-            bool noneCalled, someCalled;
             var option = Option<int>.None;
 
-            CallActionMatch(option, out someCalled, out noneCalled);
+            CallActionMatch(option, out bool someCalled, out bool noneCalled);
 
             var someNotCalledButNoneCalled = !someCalled && noneCalled;
             Assert.True(someNotCalledButNoneCalled);
@@ -59,9 +54,7 @@ namespace Beefeater.Tests.OptionExtensionsTests
         public void ActionMatchCallsNoneButNotSome()
         {
             var option = Option<int?>.None;
-            bool noneCalled, someCalled;
-
-            CallActionMatch(option, out someCalled, out noneCalled);
+            CallActionMatch(option, out bool someCalled, out bool noneCalled);
 
             var someNotCalledButNoneCalled = !someCalled && noneCalled;
             Assert.True(someNotCalledButNoneCalled);
@@ -71,9 +64,7 @@ namespace Beefeater.Tests.OptionExtensionsTests
         public void GivenAnOptionNullableIntWhenNullActionMatchCallsNoneButNotSome()
         {
             var option = new Option<int?>(null);
-            bool noneCalled, someCalled;
-
-            CallActionMatch(option, out someCalled, out noneCalled);
+            CallActionMatch(option, out bool someCalled, out bool noneCalled);
 
             var someNotCalledButNoneCalled = !someCalled && noneCalled;
             Assert.True(someNotCalledButNoneCalled);
@@ -202,9 +193,7 @@ namespace Beefeater.Tests.OptionExtensionsTests
             [Fact]
             public void FuncMatchCallsSomeButNotNone()
             {
-                bool noneCalled;
-                bool someCalled;
-                CallFuncMatch(_option, out someCalled, out noneCalled);
+                CallFuncMatch(_option, out bool someCalled, out bool noneCalled);
 
                 var someCalledButNoneNotCalled = someCalled && !noneCalled;
                 Assert.True(someCalledButNoneNotCalled);
@@ -214,21 +203,21 @@ namespace Beefeater.Tests.OptionExtensionsTests
             public void ActionMatchWithNullSomeCaseThrowsException()
             {
                 Action<Option<Foo>, Action<Foo>, Action> callActionMatch = OptionExtensions.Match;
-                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, ActionHelpers.EmptyMethod).AsThrowsDelegate());
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, ActionHelpers.EmptyMethod));
             }
 
             [Fact]
             public void ActionMatchWithNullNoneCaseThrowsException()
             {
                 Action<Option<Foo>, Action<Foo>, Action> callActionMatch = OptionExtensions.Match;
-                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, ActionHelpers.EmptyMethod, null).AsThrowsDelegate());
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, ActionHelpers.EmptyMethod, null));
             }
 
             [Fact]
             public void ActionMatchWithBothCasesNullThrowsException()
             {
                 Action<Option<Foo>, Action<Foo>, Action> callActionMatch = OptionExtensions.Match;
-                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, null).AsThrowsDelegate());
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, null));
             }
 
             public class Foo
@@ -248,9 +237,7 @@ namespace Beefeater.Tests.OptionExtensionsTests
             [Fact]
             public void ActionMatchCallsNoneButNotSome()
             {
-                bool noneCalled, someCalled;
-
-                CallActionMatch(_option, out someCalled, out noneCalled);
+                CallActionMatch(_option, out bool someCalled, out bool noneCalled);
 
                 var someNotCalledButNoneCalled = !someCalled && noneCalled;
                 Assert.True(someNotCalledButNoneCalled);
@@ -267,9 +254,7 @@ namespace Beefeater.Tests.OptionExtensionsTests
             [Fact]
             public void FuncMatchCallsNoneButNotSome()
             {
-                bool noneCalled, someCalled;
-
-                CallFuncMatch(_option, out someCalled, out noneCalled);
+                CallFuncMatch(_option, out bool someCalled, out bool noneCalled);
 
                 var someNotCalledAndNoneCalled = !someCalled && noneCalled;
                 Assert.True(someNotCalledAndNoneCalled);
@@ -292,9 +277,7 @@ namespace Beefeater.Tests.OptionExtensionsTests
             [Fact]
             public void ActionMatchCallsNoneButNotSome()
             {
-                bool noneCalled, someCalled;
-
-                CallActionMatch(_option, out someCalled, out noneCalled);
+                CallActionMatch(_option, out bool someCalled, out bool noneCalled);
 
                 var someNotCalledButNoneCalled = !someCalled && noneCalled;
                 Assert.True(someNotCalledButNoneCalled);
@@ -304,21 +287,21 @@ namespace Beefeater.Tests.OptionExtensionsTests
             public void ActionMatchWithNullSomeCaseThrowsException()
             {
                 Action<Option<Foo>, Action<Foo>, Action> callActionMatch = OptionExtensions.Match;
-                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, ActionHelpers.EmptyMethod).AsThrowsDelegate());
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, ActionHelpers.EmptyMethod));
             }
 
             [Fact]
             public void ActionMatchWithNullNoneCaseThrowsException()
             {
                 Action<Option<Foo>, Action<Foo>, Action> callActionMatch = OptionExtensions.Match;
-                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, ActionHelpers.EmptyMethod, null).AsThrowsDelegate());
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, ActionHelpers.EmptyMethod, null));
             }
 
             [Fact]
             public void ActionMatchWithBothCasesNullThrowsException()
             {
                 Action<Option<Foo>, Action<Foo>, Action> callActionMatch = OptionExtensions.Match;
-                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, null).AsThrowsDelegate());
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, null));
             }
 
             [Fact]
@@ -333,21 +316,21 @@ namespace Beefeater.Tests.OptionExtensionsTests
             public void FuncMatchWithNullSomeCaseThrowsException()
             {
                 Func<Option<Foo>, Func<Foo, bool>, Func<bool>, bool> callActionMatch = OptionExtensions.Match;
-                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, FuncHelpers.ReturnTrue).AsThrowsDelegate());
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, FuncHelpers.ReturnTrue));
             }
 
             [Fact]
             public void FuncMatchWithNullNoneCaseThrowsException()
             {
                 Func<Option<Foo>, Func<Foo, bool>, Func<bool>, bool> callActionMatch = OptionExtensions.Match;
-                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, FuncHelpers.ReturnTrue, null).AsThrowsDelegate());
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, FuncHelpers.ReturnTrue, null));
             }
 
             [Fact]
             public void FuncMatchWithBothCasesNullThrowsException()
             {
                 Func<Option<Foo>, Func<Foo, bool>, Func<bool>, bool> callActionMatch = OptionExtensions.Match;
-                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, null).AsThrowsDelegate());
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, null));
             }
 
             public class Foo

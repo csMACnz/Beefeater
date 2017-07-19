@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using BCLExtensions;
 using Beefeater.Tests.TestHelpers;
 using Xunit;
-using Xunit.Extensions;
-
-// ReSharper disable ImpureMethodCallOnReadonlyValueField
 
 namespace Beefeater.Tests.ResultExtensionsTests
 {
@@ -33,9 +30,7 @@ namespace Beefeater.Tests.ResultExtensionsTests
             [Fact]
             public void ActionMatchCallsSomeButNotNone()
             {
-                bool noneCalled, someCalled;
-
-                CallActionMatch(_result, out someCalled, out noneCalled);
+                CallActionMatch(_result, out bool someCalled, out bool noneCalled);
 
                 var someNotCalledAndNoneCalled = someCalled && !noneCalled;
                 Assert.True(someNotCalledAndNoneCalled);
@@ -44,9 +39,7 @@ namespace Beefeater.Tests.ResultExtensionsTests
             [Fact]
             public void FuncMatchCallsSomeButNotNone()
             {
-                bool noneCalled, someCalled;
-
-                CallFuncMatch(_result, out someCalled, out noneCalled);
+                CallFuncMatch(_result, out bool someCalled, out bool noneCalled);
 
                 var someNotCalledAndNoneCalled = someCalled && !noneCalled;
                 Assert.True(someNotCalledAndNoneCalled);
@@ -75,9 +68,7 @@ namespace Beefeater.Tests.ResultExtensionsTests
             [Fact]
             public void ActionMatchCallsSomeButNotNone()
             {
-                bool noneCalled, someCalled;
-
-                CallActionMatch(_result, out someCalled, out noneCalled);
+                CallActionMatch(_result, out bool someCalled, out bool noneCalled);
 
                 var someNotCalledAndNoneCalled = someCalled && !noneCalled;
                 Assert.True(someNotCalledAndNoneCalled);
@@ -86,9 +77,8 @@ namespace Beefeater.Tests.ResultExtensionsTests
             [Fact]
             public void FuncMatchCallsSomeButNotNone()
             {
-                bool noneCalled, someCalled;
 
-                CallFuncMatch(_result, out someCalled, out noneCalled);
+                CallFuncMatch(_result, out bool someCalled, out bool noneCalled);
 
                 var someNotCalledAndNoneCalled = someCalled && !noneCalled;
                 Assert.True(someNotCalledAndNoneCalled);
@@ -124,9 +114,7 @@ namespace Beefeater.Tests.ResultExtensionsTests
             [Fact]
             public void ActionMatchCallsNoneButNotSome()
             {
-                bool noneCalled, someCalled;
-
-                CallActionMatch(_result, out someCalled, out noneCalled);
+                CallActionMatch(_result, out bool someCalled, out bool noneCalled);
 
                 var someNotCalledAndNoneCalled = !someCalled && noneCalled;
                 Assert.True(someNotCalledAndNoneCalled);
@@ -135,9 +123,7 @@ namespace Beefeater.Tests.ResultExtensionsTests
             [Fact]
             public void FuncMatchCallsNoneButNotSome()
             {
-                bool noneCalled, someCalled;
-
-                CallFuncMatch(_result, out someCalled, out noneCalled);
+                CallFuncMatch(_result, out bool someCalled, out bool noneCalled);
 
                 var someNotCalledAndNoneCalled = !someCalled && noneCalled;
                 Assert.True(someNotCalledAndNoneCalled);
@@ -149,7 +135,7 @@ namespace Beefeater.Tests.ResultExtensionsTests
         {
             var result = new Result<string, Exception>();
 
-            Assert.Throws<PanicException>(_callActionMatch.AsActionUsing(result, ActionHelpers.EmptyMethod, ActionHelpers.EmptyMethod).AsThrowsDelegate());
+            Assert.Throws<PanicException>(_callActionMatch.AsActionUsing(result, ActionHelpers.EmptyMethod, ActionHelpers.EmptyMethod));
         }
 
         [Fact]
@@ -157,7 +143,7 @@ namespace Beefeater.Tests.ResultExtensionsTests
         {
             var result = default(Result<string, Exception>);
 
-            Assert.Throws<PanicException>(_callActionMatch.AsActionUsing(result, ActionHelpers.EmptyMethod, ActionHelpers.EmptyMethod).AsThrowsDelegate());
+            Assert.Throws<PanicException>(_callActionMatch.AsActionUsing(result, ActionHelpers.EmptyMethod, ActionHelpers.EmptyMethod));
         }
 
         [Fact]
@@ -165,7 +151,7 @@ namespace Beefeater.Tests.ResultExtensionsTests
         {
             var result = new Result<string, Exception>();
 
-            Assert.Throws<PanicException>(_callFuncMatch.AsActionUsing(result, FuncHelpers.ReturnTrue, FuncHelpers.ReturnFalse).AsThrowsDelegate());
+            Assert.Throws<PanicException>(_callFuncMatch.AsActionUsing(result, FuncHelpers.ReturnTrue, FuncHelpers.ReturnFalse));
         }
 
         [Fact]
@@ -173,56 +159,56 @@ namespace Beefeater.Tests.ResultExtensionsTests
         {
             var result = default(Result<string, Exception>);
 
-            Assert.Throws<PanicException>(_callFuncMatch.AsActionUsing(result, FuncHelpers.ReturnTrue, FuncHelpers.ReturnFalse).AsThrowsDelegate());
+            Assert.Throws<PanicException>(_callFuncMatch.AsActionUsing(result, FuncHelpers.ReturnTrue, FuncHelpers.ReturnFalse));
         }
 
         [Theory]
-        [PropertyData("ThrowsTestData")]
+        [MemberData(nameof(ThrowsTestData))]
         public void ThrowsWhenActionMatchHasNullSome(Result<string, Exception> result)
         {
             Assert.Throws<ArgumentNullException>(
-                _callActionMatch.AsActionUsing(result, null, e => { }).AsThrowsDelegate());
+                _callActionMatch.AsActionUsing(result, null, e => { }));
         }
 
         [Theory]
-        [PropertyData("ThrowsTestData")]
+        [MemberData(nameof(ThrowsTestData))]
         public void ThrowsWhenActionMatchHasNullNone(Result<string, Exception> result)
         {
             Assert.Throws<ArgumentNullException>(
-                _callActionMatch.AsActionUsing(result, v => { }, null).AsThrowsDelegate());
+                _callActionMatch.AsActionUsing(result, v => { }, null));
         }
 
         [Theory]
-        [PropertyData("ThrowsTestData")]
+        [MemberData(nameof(ThrowsTestData))]
         public void ThrowsWhenActionMatchHasNullBoth(Result<string, Exception> result)
         {
 
             Assert.Throws<ArgumentNullException>(
-                _callActionMatch.AsActionUsing(result, null, null).AsThrowsDelegate());
+                _callActionMatch.AsActionUsing(result, null, null));
         }
 
         [Theory]
-        [PropertyData("ThrowsTestData")]
+        [MemberData(nameof(ThrowsTestData))]
         public void ThrowsWhenFuncMatchHasNullSome(Result<string, Exception> result)
         {
             Assert.Throws<ArgumentNullException>(
-                _callFuncMatch.AsActionUsing(result, null, FuncHelpers.ReturnFalse).AsThrowsDelegate());
+                _callFuncMatch.AsActionUsing(result, null, FuncHelpers.ReturnFalse));
         }
 
         [Theory]
-        [PropertyData("ThrowsTestData")]
+        [MemberData(nameof(ThrowsTestData))]
         public void ThrowsWhenFuncMatchHasNullNone(Result<string, Exception> result)
         {
             Assert.Throws<ArgumentNullException>(
-                _callFuncMatch.AsActionUsing(result, FuncHelpers.ReturnTrue, null).AsThrowsDelegate());
+                _callFuncMatch.AsActionUsing(result, FuncHelpers.ReturnTrue, null));
         }
 
         [Theory]
-        [PropertyData("ThrowsTestData")]
+        [MemberData(nameof(ThrowsTestData))]
         public void ThrowsWhenFuncMatchHasNullBoth(Result<string, Exception> result)
         {
             Assert.Throws<ArgumentNullException>(
-                _callFuncMatch.AsActionUsing(result, null, null).AsThrowsDelegate());
+                _callFuncMatch.AsActionUsing(result, null, null));
         }
 
         private readonly Action<Result<string, Exception>, Action<string>, Action<Exception>> _callActionMatch =

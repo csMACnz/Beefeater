@@ -1,32 +1,26 @@
-﻿using System;
-
-namespace Beefeater
+﻿namespace Beefeater
 {
     public struct Option<T>
     {
         private readonly T _value;
-        private readonly bool _hasValue;
 
         public Option(T value) : this()
         {
             if (value != null)
             {
-                _hasValue = true;
+                HasValue = true;
                 _value = value;
             }
         }
 
         public T ValueOr(T fallbackValue)
         {
-            return !_hasValue ? fallbackValue : _value;
+            return !HasValue ? fallbackValue : _value;
         }
 
-        public static Option<T> None
-        {
-            get { return new Option<T>(); }
-        }
+        public static Option<T> None => new Option<T>();
 
-        public bool HasValue { get { return _hasValue; } }
+        public bool HasValue { get; }
 
         public static implicit operator Option<T>(T item)
         {
@@ -35,7 +29,7 @@ namespace Beefeater
 
         public static explicit operator T(Option<T> option)
         {
-            if (option._hasValue)
+            if (option.HasValue)
             {
                 return option._value;
             }

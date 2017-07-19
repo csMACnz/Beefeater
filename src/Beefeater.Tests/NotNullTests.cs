@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using BCLExtensions;
-using Beefeater.Tests.TestHelpers;
 using Xunit;
 
 namespace Beefeater.Tests
@@ -40,12 +40,13 @@ namespace Beefeater.Tests
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
         public void NullReferenceThrowsException()
         {
             Foo foo = null;
 
             Func<Foo, NotNull<Foo>> action = CreateNotNull;
-            Assert.Throws<PanicException>(action.AsActionUsing(foo).AsThrowsDelegate());
+            Assert.Throws<PanicException>(action.AsActionUsing(foo));
         }
 
         [Fact]
@@ -54,7 +55,7 @@ namespace Beefeater.Tests
             var notNullFoo = default(NotNull<Foo>);
 
             Func<NotNull<Foo>, Foo> action = GetValue;
-            Assert.Throws<PanicException>(action.AsActionUsing(notNullFoo).AsThrowsDelegate());
+            Assert.Throws<PanicException>(action.AsActionUsing(notNullFoo));
         }
 
         [Fact]
@@ -63,7 +64,7 @@ namespace Beefeater.Tests
             var notNullFoo = new NotNull<Foo>();
 
             Func<NotNull<Foo>, Foo> action = GetValue;
-            Assert.Throws<PanicException>(action.AsActionUsing(notNullFoo).AsThrowsDelegate());
+            Assert.Throws<PanicException>(action.AsActionUsing(notNullFoo));
         }
 
         private static NotNull<Foo> CreateNotNull(Foo foo)

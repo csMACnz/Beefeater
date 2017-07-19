@@ -1,5 +1,3 @@
-using System;
-using System.Diagnostics;
 using Xunit;
 // ReSharper disable ImpureMethodCallOnReadonlyValueField
 

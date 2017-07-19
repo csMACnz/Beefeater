@@ -1,6 +1,5 @@
 ﻿using System;
 using BCLExtensions;
-using Beefeater.Tests.TestHelpers;
 using Xunit;
 
 // ReSharper disable ImpureMethodCallOnReadonlyValueField
@@ -17,7 +16,7 @@ namespace Beefeater.Tests
             Func<Exception, Result<string, Exception>> function = CreateResultFrom;
 
             // ReSharper disable once ExpressionIsAlwaysNull
-            Assert.Throws<ArgumentNullException>(function.AsActionUsing(exception).AsThrowsDelegate());
+            Assert.Throws<ArgumentNullException>(function.AsActionUsing(exception));
         }
 
         [Fact]
@@ -40,7 +39,7 @@ namespace Beefeater.Tests
         public void ResultOfStringStringCreatedWithOfErrorOfNullThrows()
         {
             Func<string, Result<string, string>> ofError = Result<string, string>.OfError;
-            Assert.Throws<ArgumentNullException>(ofError.AsActionUsing(null).AsThrowsDelegate());
+            Assert.Throws<ArgumentNullException>(ofError.AsActionUsing(null));
         }
 
         [Fact]
@@ -228,7 +227,7 @@ namespace Beefeater.Tests
 
         private static void AssertThrowsException<T, TException>(Result<string, Exception> result, Func<Result<string, Exception>, T> action) where TException : Exception
         {
-            Assert.Throws<TException>(action.AsActionUsing(result).AsThrowsDelegate());
+            Assert.Throws<TException>(action.AsActionUsing(result));
         }
 
         private static Exception GetError(Result<string, Exception> result)

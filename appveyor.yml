@@ -14,19 +14,19 @@ cache:
 - C:\ProgramData\chocolatey\lib -> build.environment.ps1
 install:
 - ps: .\build.environment.ps1
-- ps: psake .\build.tasks.ps1 appveyor-install
+- ps: psake appveyor-install
 build_script:
-- ps: psake .\build.tasks.ps1 appveyor-build
+- ps: psake appveyor-build
 test_script:
-- ps: psake .\build.tasks.ps1 appveyor-test
+- ps: psake appveyor-test
 artifacts:
-- path: BeefeaterCoverage.xml
+- path: TestResults\BeefeaterCoverage.xml
   name: BeefeaterCoverage.xml
-- path: Beefeater.*.zip
-- path: Beefeater.*.nupkg
+- path: Package\Beefeater.*.zip
+- path: Package\Beefeater.*.nupkg
 deploy:
 - provider: GitHub
-  release: $($env:GitVersion_SemVer)
+  release: $(GitVersion_SemVer)
   auth_token:
     secure: hH6A9i7v+sf5mZy9FLQVG7n4UpLWkUhpshIsia7sGi1ONr+iMKroqjkJk0Hsi3nK
   artifact: /.*\.nupkg/
