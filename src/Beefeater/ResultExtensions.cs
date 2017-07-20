@@ -9,8 +9,8 @@ namespace Beefeater
             Action<TResult> some,
             Action<TError> none)
         {
-            if (some == null) throw new ArgumentNullException("some");
-            if (none == null) throw new ArgumentNullException("none");
+            if (some == null) throw new ArgumentNullException(nameof(some));
+            if (none == null) throw new ArgumentNullException(nameof(none));
             if (result.Successful)
             {
                 some(result.Value);
@@ -26,8 +26,8 @@ namespace Beefeater
             Func<TResult, TValue> some,
             Func<TError, TValue> none)
         {
-            if (some == null) throw new ArgumentNullException("some");
-            if (none == null) throw new ArgumentNullException("none");
+            if (some == null) throw new ArgumentNullException(nameof(some));
+            if (none == null) throw new ArgumentNullException(nameof(none));
             return result.Successful ? some(result.Value) : none(result.Error);
         }
     }

@@ -1,6 +1,5 @@
 ﻿using System;
 using BCLExtensions;
-using Beefeater.Tests.TestHelpers;
 using Xunit;
 
 // ReSharper disable ImpureMethodCallOnReadonlyValueField
@@ -10,6 +9,16 @@ namespace Beefeater.Tests
     public class ResultTests
     {
         [Fact]
+        public void ProvidedValidExceptionReturns()
+        {
+            Exception exception = new Exception();
+
+            Func<Exception, Result<string, Exception>> function = CreateResultFrom;
+
+            var resultEx = function(exception);
+        }
+
+        [Fact]
         public void ProvidedNullExceptionThrows()
         {
             Exception exception = null;
@@ -17,13 +26,13 @@ namespace Beefeater.Tests
             Func<Exception, Result<string, Exception>> function = CreateResultFrom;
 
             // ReSharper disable once ExpressionIsAlwaysNull
-            Assert.Throws<ArgumentNullException>(function.AsActionUsing(exception).AsThrowsDelegate());
+            Assert.Throws<ArgumentNullException>(function.AsActionUsing(exception));
         }
 
         [Fact]
         public void ResultOfStringStringCreatedWithOfValueIsCreatedCorrectly()
         {
-            Result<string,string> result = Result<string, string>.OfValue("Happy");
+            Result<string, string> result = Result<string, string>.OfValue("Happy");
 
             Assert.True(result.Successful && result.Value == "Happy");
         }
@@ -31,7 +40,7 @@ namespace Beefeater.Tests
         [Fact]
         public void ResultOfStringStringCreatedWithOfErrorIsCreatedCorrectly()
         {
-            Result<string,string> result = Result<string, string>.OfError("Error Message");
+            Result<string, string> result = Result<string, string>.OfError("Error Message");
 
             Assert.True(!result.Successful && result.Error == "Error Message");
         }
@@ -40,7 +49,7 @@ namespace Beefeater.Tests
         public void ResultOfStringStringCreatedWithOfErrorOfNullThrows()
         {
             Func<string, Result<string, string>> ofError = Result<string, string>.OfError;
-            Assert.Throws<ArgumentNullException>(ofError.AsActionUsing(null).AsThrowsDelegate());
+            Assert.Throws<ArgumentNullException>(ofError.AsActionUsing(null));
         }
 
         [Fact]
@@ -83,7 +92,7 @@ namespace Beefeater.Tests
             [Fact]
             public void IsSuccessful()
             {
-                Assert.True(_result.Successful);
+                Assert.True(GetSuccessful(_result));
             }
 
             [Fact]
@@ -119,13 +128,13 @@ namespace Beefeater.Tests
             [Fact]
             public void IsSuccessful()
             {
-                Assert.True(_result.Successful);
+                Assert.True(GetSuccessful(_result));
             }
 
             [Fact]
             public void ReturnsInputResult()
             {
-                Assert.Equal(null, _result.Value);
+                Assert.Equal(null, GetValue(_result));
             }
 
             [Fact]
@@ -154,7 +163,14 @@ namespace Beefeater.Tests
             [Fact]
             public void IsNotSuccessful()
             {
-                Assert.False(_result.Successful);
+                Assert.False(GetSuccessful(_result));
+            }
+
+            [Fact]
+            public void WhenGetErrorThenGetsException()
+            {
+                var ex = GetError(_result);
+                Assert.NotNull(ex);
             }
 
             [Fact]
@@ -228,7 +244,7 @@ namespace Beefeater.Tests
 
         private static void AssertThrowsException<T, TException>(Result<string, Exception> result, Func<Result<string, Exception>, T> action) where TException : Exception
         {
-            Assert.Throws<TException>(action.AsActionUsing(result).AsThrowsDelegate());
+            Assert.Throws<TException>(action.AsActionUsing(result));
         }
 
         private static Exception GetError(Result<string, Exception> result)

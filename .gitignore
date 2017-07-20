@@ -22,15 +22,12 @@ TestResults
 #!**/packages/repositories.config
 
 #Build Script Artifacts
+BuildPackages
 Package
-coverity.zip
-coverallsTestOutput.json
+TestResults
 cov-int
 codecov
 cov-analysis-win64-*
-BeefeaterCoverage.xml
-Beefeater.*.zip
-Beefeater.*.nupkg
 *.ncrunchproject
 *.ncrunchsolution
 src/_NCrunch_Beefeater

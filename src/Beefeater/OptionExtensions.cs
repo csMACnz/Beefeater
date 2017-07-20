@@ -15,16 +15,16 @@ namespace Beefeater
 
         public static TResult Match<TValue, TResult>(this Option<TValue> option, Func<TValue, TResult> some, Func<TResult> none)
         {
-            if (some == null) throw new ArgumentNullException("some");
-            if (none == null) throw new ArgumentNullException("none");
+            if (some == null) throw new ArgumentNullException(nameof(some));
+            if (none == null) throw new ArgumentNullException(nameof(none));
 
             return option.HasValue ? some((TValue)option) : none();
         }
 
         public static void Match<TValue>(this Option<TValue> option, Action<TValue> some, Action none)
         {
-            if (some == null) throw new ArgumentNullException("some");
-            if (none == null) throw new ArgumentNullException("none");
+            if (some == null) throw new ArgumentNullException(nameof(some));
+            if (none == null) throw new ArgumentNullException(nameof(none));
             if (option.HasValue)
             {
                 some((TValue)option);

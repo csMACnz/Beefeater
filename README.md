@@ -25,17 +25,7 @@ Guard your methods' Ins and Outs.
 
 This library contains helpers to add semantics to the optionality of your parameters and results from method calls.
 
-For now, this is build upon the most generic PCL possible, but may explore specific additional components if required.
-
-PCL Profile(Profile328)
------------------------
-* .Net Framework 4
-* Silverlight 5
-* Windows 8/8.1(winrt)
-* Windows Phone 8.1
-* Window Phone Silverlight 8
-* Xamarin.Android
-* Xamarin.iOS
+This library is built on `NetStandard1.0` for maximum compatability.
 
 Nuget
 -----
@@ -46,55 +36,58 @@ You can install the nuget package using `Install-Package Beefeater` or by headin
 Examples
 --------
 
-    public Option<string> Modify(NotNull<string> first, Option<string> second)
-    {
-        return second.Match(
-            v => first + v,
-            () => Option<string>.None);
-    }
+```
+public Option<string> Modify(NotNull<string> first, Option<string> second)
+{
+    return second.Match(
+        v => first + v,
+        () => Option<string>.None);
+}
 
-    var x = Modify("Hello", "World");
-    var x = Modify("Hello", null);
+var x = Modify("Hello", "World");
+var x = Modify("Hello", null);
+```
 
 ----
 
-    public enum ErrorResult
+```
+public enum ErrorResult
+{
+    UnknownError,
+    FileNotFound,
+    Unauthorized
+}
+public Result<bool, ErrorResult> Create(NotNull<string> filePath, Option<string> second)
+{
+    FileStream stream;
+    try
     {
-        UnknownError,
-        FileNotFound,
-        Unauthorized
+        stream = File.OpenWrite(filePath);
     }
-    public Result<bool, ErrorResult> Create(NotNull<string> filePath, Option<string> second)
+    catch (UnauthorizedAccessException ex)
     {
-        FileStream stream;
-        try
-        {
-            stream = File.OpenWrite(filePath);
-        }
-        catch (UnauthorizedAccessException ex)
-        {
-            return ErrorResult.Unauthorized;
-        }
-        catch (FileNotFoundException ex)
-        {
-            return ErrorResult.FileNotFound;
-        }
-        catch (Exception ex)
-        {
-            return ErrorResult.UnknownError;
-        }
-        using (stream)
-        {
-            return second.Match(
-                v =>
+        return ErrorResult.Unauthorized;
+    }
+    catch (FileNotFoundException ex)
+    {
+        return ErrorResult.FileNotFound;
+    }
+    catch (Exception ex)
+    {
+        return ErrorResult.UnknownError;
+    }
+    using (stream)
+    {
+        return second.Match(
+            v =>
+            {
+                using (var writer = new StreamWriter(stream))
                 {
-                    using (var writer = new StreamWriter(stream))
-                    {
-                        writer.WriteLine(v);
-                    }
-                    return true;
-                },
-                () => false);
-        }
+                    writer.WriteLine(v);
+                }
+                return true;
+            },
+            () => false);
     }
-
+}
+```

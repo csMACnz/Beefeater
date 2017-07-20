@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using System.Diagnostics.CodeAnalysis;
+using Xunit;
 
 namespace Beefeater.Tests.OptionTests
 {
@@ -15,6 +16,7 @@ namespace Beefeater.Tests.OptionTests
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
         public void NullFooCanImplicityCastToNoneOptionOfFoo()
         {
             Foo foo = null;

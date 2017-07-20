@@ -1,4 +1,4 @@
-version: 1.0.0.{build}
+version: 0.0.{build}
 environment:
   COVERALLS_REPO_TOKEN:
     secure: /ub3L1j8fknd2F4q2iW+waqWIe+0yrnk/l/0OTzPIvfu2hjoOYthlEMwLEaT2pO9
@@ -8,21 +8,25 @@ environment:
     secure: UEqRjr6WeJQzmybaDQ1x8vGceHZcnwS/K67lMvLKaiE=
   CODECOV_TOKEN:
     secure: KwP1bxxS2EEUh3lSWIc2P5BLBKrjbC9xDKvtN5YjIQ1YqxGAYm+mej73D2KxyK9F
+cache:
+- BuildPackages -> default.ps1
+- C:\ProgramData\chocolatey\bin -> build.environment.ps1
+- C:\ProgramData\chocolatey\lib -> build.environment.ps1
 install:
 - ps: .\build.environment.ps1
-- ps: psake .\build.tasks.ps1 appveyor-install
+- ps: psake appveyor-install
 build_script:
-- ps: psake .\build.tasks.ps1 appveyor-build
+- ps: psake appveyor-build
 test_script:
-- ps: psake .\build.tasks.ps1 appveyor-test
+- ps: psake appveyor-test
 artifacts:
-- path: BeefeaterCoverage.xml
+- path: TestResults\BeefeaterCoverage.xml
   name: BeefeaterCoverage.xml
-- path: Beefeater.*.zip
-- path: Beefeater.*.nupkg
+- path: Package\Beefeater.*.zip
+- path: Package\Beefeater.*.nupkg
 deploy:
 - provider: GitHub
-  release: $($env:GitVersion_SemVer)
+  release: $(GitVersion_SemVer)
   auth_token:
     secure: hH6A9i7v+sf5mZy9FLQVG7n4UpLWkUhpshIsia7sGi1ONr+iMKroqjkJk0Hsi3nK
   artifact: /.*\.nupkg/
