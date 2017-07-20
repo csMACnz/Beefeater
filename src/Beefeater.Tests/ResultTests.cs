@@ -9,6 +9,16 @@ namespace Beefeater.Tests
     public class ResultTests
     {
         [Fact]
+        public void ProvidedValidExceptionReturns()
+        {
+            Exception exception = new Exception();
+
+            Func<Exception, Result<string, Exception>> function = CreateResultFrom;
+
+            var resultEx = function(exception);
+        }
+
+        [Fact]
         public void ProvidedNullExceptionThrows()
         {
             Exception exception = null;
@@ -22,7 +32,7 @@ namespace Beefeater.Tests
         [Fact]
         public void ResultOfStringStringCreatedWithOfValueIsCreatedCorrectly()
         {
-            Result<string,string> result = Result<string, string>.OfValue("Happy");
+            Result<string, string> result = Result<string, string>.OfValue("Happy");
 
             Assert.True(result.Successful && result.Value == "Happy");
         }
@@ -30,7 +40,7 @@ namespace Beefeater.Tests
         [Fact]
         public void ResultOfStringStringCreatedWithOfErrorIsCreatedCorrectly()
         {
-            Result<string,string> result = Result<string, string>.OfError("Error Message");
+            Result<string, string> result = Result<string, string>.OfError("Error Message");
 
             Assert.True(!result.Successful && result.Error == "Error Message");
         }
@@ -82,7 +92,7 @@ namespace Beefeater.Tests
             [Fact]
             public void IsSuccessful()
             {
-                Assert.True(_result.Successful);
+                Assert.True(GetSuccessful(_result));
             }
 
             [Fact]
@@ -118,13 +128,13 @@ namespace Beefeater.Tests
             [Fact]
             public void IsSuccessful()
             {
-                Assert.True(_result.Successful);
+                Assert.True(GetSuccessful(_result));
             }
 
             [Fact]
             public void ReturnsInputResult()
             {
-                Assert.Equal(null, _result.Value);
+                Assert.Equal(null, GetValue(_result));
             }
 
             [Fact]
@@ -153,7 +163,14 @@ namespace Beefeater.Tests
             [Fact]
             public void IsNotSuccessful()
             {
-                Assert.False(_result.Successful);
+                Assert.False(GetSuccessful(_result));
+            }
+
+            [Fact]
+            public void WhenGetErrorThenGetsException()
+            {
+                var ex = GetError(_result);
+                Assert.NotNull(ex);
             }
 
             [Fact]

@@ -167,7 +167,7 @@ namespace Beefeater.Tests.ResultExtensionsTests
         public void ThrowsWhenActionMatchHasNullSome(Result<string, Exception> result)
         {
             Assert.Throws<ArgumentNullException>(
-                _callActionMatch.AsActionUsing(result, null, e => { }));
+                _callActionMatch.AsActionUsing(result, null, ActionHelpers.EmptyMethod));
         }
 
         [Theory]
@@ -175,7 +175,7 @@ namespace Beefeater.Tests.ResultExtensionsTests
         public void ThrowsWhenActionMatchHasNullNone(Result<string, Exception> result)
         {
             Assert.Throws<ArgumentNullException>(
-                _callActionMatch.AsActionUsing(result, v => { }, null));
+                _callActionMatch.AsActionUsing(result, ActionHelpers.EmptyMethod, null));
         }
 
         [Theory]
