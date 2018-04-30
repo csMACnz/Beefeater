@@ -71,13 +71,13 @@ namespace Beefeater
         /// <summary>
         /// Gets the Error.
         /// </summary>
-        /// <exception cref="System.InvalidOperationException">Error cannot be accessed on unsuccessful Result.</exception>
+        /// <exception cref="System.InvalidOperationException">Error cannot be accessed on successful Result.</exception>
         public TError Error
         {
             get
             {
                 if (_successful)
-                    throw new InvalidOperationException("Error cannot be accessed on unsuccessful Result.");
+                    throw new InvalidOperationException("Error cannot be accessed on successful Result.");
                 if (_error != null) return _error;
                 throw new PanicException();
             }
