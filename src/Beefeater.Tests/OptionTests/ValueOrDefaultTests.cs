@@ -81,7 +81,6 @@ namespace Beefeater.Tests.OptionTests
 
         public class Foo
         {
-
         }
     }
 }

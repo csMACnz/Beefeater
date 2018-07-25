@@ -21,7 +21,7 @@ namespace Beefeater.Tests.OptionExtensionsTests
         }
 
         [Fact]
-        [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
+        [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull", Justification = "Test")]
         public void GivenANullIntAsAnOptionValueOrMinMatchesOriginalValue()
         {
             int? value = null;

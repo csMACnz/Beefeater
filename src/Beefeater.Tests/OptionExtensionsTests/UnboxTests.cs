@@ -46,6 +46,5 @@ namespace Beefeater.Tests.OptionExtensionsTests
 
             Assert.Equal(int.MinValue, unboxed.ValueOr(int.MinValue));
         }
-
     }
 }

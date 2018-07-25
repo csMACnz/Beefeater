@@ -1,6 +1,6 @@
 using Xunit;
-// ReSharper disable ImpureMethodCallOnReadonlyValueField
 
+// ReSharper disable ImpureMethodCallOnReadonlyValueField
 namespace Beefeater.Tests.OptionTests
 {
     public class WhenAnOptionWithANullableIntIsConstructedThen
@@ -34,6 +34,5 @@ namespace Beefeater.Tests.OptionTests
 
             Assert.Equal(_value, result);
         }
-
     }
 }

@@ -1,17 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Product>Beefeater</Product>
-    <Copyright>Copyright © csMACnz 2017</Copyright>
     <Title>Beefeater</Title>
     <Description>Guard your methods' Ins and Outs. Helpers to add semantics to the optionality of your parameters and results from method calls.</Description>
     <AssemblyTitle>Beefeater</AssemblyTitle>
-    <NeutralLanguage>en-NZ</NeutralLanguage>
-    <VersionPrefix>0.0.1</VersionPrefix>
-    <Authors>dev-markc</Authors>
     <TargetFramework>netstandard1.0</TargetFramework>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DebugType>full</DebugType>
     <AssemblyName>Beefeater</AssemblyName>
     <PackageId>Beefeater</PackageId>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -19,9 +12,6 @@
     <PackageProjectUrl>https://github.com/csMACnz/Beefeater</PackageProjectUrl>
     <PackageIconUrl>http://img.csmac.nz/Beefeater-32.png</PackageIconUrl>
     <PackageTags>Beefeater; Helpers; Some; Option; None; Nullable</PackageTags>
-    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
   </PropertyGroup>
 
   <ItemGroup>

@@ -40,10 +40,10 @@ namespace Beefeater.Tests
         }
 
         [Fact]
-        [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
+        [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull", Justification = "Test")]
         public void NullReferenceThrowsException()
         {
-            Foo foo = null;
+            const Foo foo = null;
 
             Func<Foo, NotNull<Foo>> action = CreateNotNull;
             Assert.Throws<PanicException>(action.AsActionUsing(foo));

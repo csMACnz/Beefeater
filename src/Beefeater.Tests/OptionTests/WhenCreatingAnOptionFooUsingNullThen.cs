@@ -1,7 +1,6 @@
 using Xunit;
 
 // ReSharper disable ImpureMethodCallOnReadonlyValueField
-
 namespace Beefeater.Tests.OptionTests
 {
     public class WhenCreatingAnOptionFooUsingNullThen
@@ -35,7 +34,7 @@ namespace Beefeater.Tests.OptionTests
         [Fact]
         public void ExplicitCastToAnFooThrowsException()
         {
-            Assert.Throws<PanicException>(() => (Foo) _option);
+            Assert.Throws<PanicException>(() => (Foo)_option);
         }
 
         public class Foo

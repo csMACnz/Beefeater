@@ -4,7 +4,6 @@ using Beefeater.Tests.TestHelpers;
 using Xunit;
 
 // ReSharper disable ImpureMethodCallOnReadonlyValueField
-
 namespace Beefeater.Tests.OptionTests
 {
     public class MatchTests
@@ -13,8 +12,8 @@ namespace Beefeater.Tests.OptionTests
         [InlineData(0)]
         [InlineData(42)]
         [InlineData(-12)]
-        [InlineData(Int32.MinValue)]
-        [InlineData(Int32.MaxValue)]
+        [InlineData(int.MinValue)]
+        [InlineData(int.MaxValue)]
         public void GivenAnOptionOfNullableIntActionMatchCallsSomeButNotNone(int value)
         {
             var option = new Option<int?>(value);
@@ -24,18 +23,13 @@ namespace Beefeater.Tests.OptionTests
             Assert.True(someCalledButNoneNotCalled);
         }
 
-        [Theory]
-        [InlineData(0)]
-        [InlineData(42)]
-        [InlineData(-12)]
-        [InlineData(Int32.MinValue)]
-        [InlineData(Int32.MaxValue)]
-        public void GivenAnOptionOfNullableIntActionMatchCallsNoneButNotSome(int value)
+        [Fact]
+        public void GivenAnOptionOfNullableIntActionMatchCallsNoneButNotSome()
         {
-            var option = new Option<int?>(value);
+            var option = new Option<int?>(null);
             CallActionMatch(option, out bool someCalled, out bool noneCalled);
 
-            var someCalledButNoneNotCalled = someCalled && !noneCalled;
+            var someCalledButNoneNotCalled = !someCalled && noneCalled;
             Assert.True(someCalledButNoneNotCalled);
         }
 
@@ -74,8 +68,8 @@ namespace Beefeater.Tests.OptionTests
         [InlineData(0)]
         [InlineData(42)]
         [InlineData(-12)]
-        [InlineData(Int32.MinValue)]
-        [InlineData(Int32.MaxValue)]
+        [InlineData(int.MinValue)]
+        [InlineData(int.MaxValue)]
         public void GivenAnOptionOfIntFuncMatchReturnsExpectedSome(int value)
         {
             var option = new Option<int>(value);
@@ -99,8 +93,8 @@ namespace Beefeater.Tests.OptionTests
         [InlineData(0)]
         [InlineData(42)]
         [InlineData(-12)]
-        [InlineData(Int32.MinValue)]
-        [InlineData(Int32.MaxValue)]
+        [InlineData(int.MinValue)]
+        [InlineData(int.MaxValue)]
         public void GivenAnOptionOfIntFuncMatchReturnsNullableExpectedSome(int value)
         {
             var option = new Option<int>(value);
@@ -124,8 +118,8 @@ namespace Beefeater.Tests.OptionTests
         [InlineData(0)]
         [InlineData(42)]
         [InlineData(-12)]
-        [InlineData(Int32.MinValue)]
-        [InlineData(Int32.MaxValue)]
+        [InlineData(int.MinValue)]
+        [InlineData(int.MaxValue)]
         public void GivenAnOptionOfNullableIntFuncMatchReturnsExpectedSome(int value)
         {
             var option = new Option<int?>(value);
@@ -149,8 +143,8 @@ namespace Beefeater.Tests.OptionTests
         [InlineData(0)]
         [InlineData(42)]
         [InlineData(-12)]
-        [InlineData(Int32.MinValue)]
-        [InlineData(Int32.MaxValue)]
+        [InlineData(int.MinValue)]
+        [InlineData(int.MaxValue)]
         public void GivenAnOptionOfNullableIntFuncMatchReturnsExpectedSomeAsNullable(int value)
         {
             var option = new Option<int?>(value);
@@ -372,7 +366,8 @@ namespace Beefeater.Tests.OptionTests
             someCalled = some;
         }
 
-        private static T CallMatchTo<T>(Option<T> option) where T : class
+        private static T CallMatchTo<T>(Option<T> option)
+            where T : class
         {
             var result = option.Match(
                 some: v => v,
@@ -380,7 +375,10 @@ namespace Beefeater.Tests.OptionTests
             return result;
         }
 
+        // Class vs nullable method overload identical code, different compile.
+#pragma warning disable S4144 // Methods should not have identical implementations
         private static int? CallMatchNullableToNullable(Option<int?> option)
+#pragma warning restore S4144 // Methods should not have identical implementations
         {
             var result = option.Match(
                 some: v => v,
@@ -391,7 +389,6 @@ namespace Beefeater.Tests.OptionTests
         private static int CallMatchNullableToInt(Option<int?> option)
         {
             var result = option.Match(
-                // ReSharper disable once PossibleInvalidOperationException
                 some: v => v.Value,
                 none: () => -1);
             return result;

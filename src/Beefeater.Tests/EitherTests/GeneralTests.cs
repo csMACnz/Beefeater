@@ -10,51 +10,52 @@ namespace Beefeater.Tests.EitherTests
         {
             Foo foo = new Foo();
 
-            Either<Foo,Bar> result = foo;
+            Either<Foo, Bar> result = foo;
 
             Assert.Equal(foo, result.Item1);
         }
-[Fact]
+
+        [Fact]
         public void ValidBarCanImplicityCastToEitherOfFooBar()
         {
             Bar bar = new Bar();
 
-            Either<Foo,Bar> result = bar;
+            Either<Foo, Bar> result = bar;
 
             Assert.Equal(bar, result.Item2);
         }
 
         [Fact]
-        [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
+        [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull", Justification = "Test")]
         public void NullFooCanImplicityCastToNoneEitherOfFooBar()
         {
-            Foo foo = null;
+            const Foo foo = null;
 
-            Either<Foo,Bar> result = foo;
+            Either<Foo, Bar> result = foo;
 
             Assert.False(result.HasValue);
             Assert.Null(result.Item1);
         }
 
         [Fact]
-        [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
+        [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull", Justification = "Test")]
         public void NullBarCanImplicityCastToNoneEitherOfFooBar()
         {
-            Bar bar = null;
+            const Bar bar = null;
 
-            Either<Foo,Bar> result = bar;
+            Either<Foo, Bar> result = bar;
 
             Assert.False(result.HasValue);
             Assert.Null(result.Item2);
         }
 
         [Fact]
-        [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
+        [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull", Justification = "Test")]
         public void UsingBarEitherOfFooBarHasCorrectState()
         {
             Bar bar = new Bar();
 
-            Either<Foo,Bar> result = bar;
+            Either<Foo, Bar> result = bar;
 
             Assert.True(result.HasValue);
             Assert.False(result.IsItem1);
@@ -62,19 +63,24 @@ namespace Beefeater.Tests.EitherTests
         }
 
         [Fact]
-        [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
+        [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull", Justification = "Test")]
         public void UsingFooEitherOfFooBarHasCorrectState()
         {
             Foo foo = new Foo();
 
-            Either<Foo,Bar> result = foo;
+            Either<Foo, Bar> result = foo;
 
             Assert.True(result.HasValue);
             Assert.True(result.IsItem1);
             Assert.False(result.IsItem2);
         }
 
-        public class Foo { }
-        public class Bar { }
+        public class Foo
+        {
+        }
+
+        public class Bar
+        {
+        }
     }
 }

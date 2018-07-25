@@ -1,6 +1,6 @@
 using Xunit;
-// ReSharper disable ImpureMethodCallOnReadonlyValueField
 
+// ReSharper disable ImpureMethodCallOnReadonlyValueField
 namespace Beefeater.Tests.OptionTests
 {
     public class WhenCreatingANoneOfOptionFooThen

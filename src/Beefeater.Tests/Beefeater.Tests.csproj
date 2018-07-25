@@ -1,23 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 <PropertyGroup>
-    <Product>Beefeater</Product>
-    <Copyright>Copyright © csMACnz 2017</Copyright>
     <Description>Tests for Beefeater</Description>
     <AssemblyTitle>Tests for Beefeater</AssemblyTitle>
-    <NeutralLanguage>en-NZ</NeutralLanguage>
-    <Authors>dev-markc</Authors>
     <TargetFrameworks>netcoreapp1.1</TargetFrameworks>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DebugType>full</DebugType>
     <AssemblyName>Beefeater.Tests</AssemblyName>
     <PackageId>Beefeater.Tests</PackageId>
     <PackageLicenseUrl>https://github.com/csMACnz/Beefeater/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/csMACnz/Beefeater</PackageProjectUrl>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
-    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+    <CodeAnalysisRuleSet>../tests.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>

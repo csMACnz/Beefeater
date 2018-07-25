@@ -2,7 +2,6 @@
 using Xunit;
 
 // ReSharper disable ImpureMethodCallOnReadonlyValueField
-
 namespace Beefeater.Tests.EitherTests
 {
     public class WhenCreatingAnEitherFooBarUsingNullBarThen

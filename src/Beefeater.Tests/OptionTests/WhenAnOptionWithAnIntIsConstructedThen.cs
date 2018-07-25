@@ -1,13 +1,13 @@
 ﻿using Xunit;
 
 // ReSharper disable ImpureMethodCallOnReadonlyValueField
-
 namespace Beefeater.Tests.OptionTests
 {
     public class WhenAnOptionWithAnIntIsConstructedThen
     {
         private readonly int _value;
-        private Option<int> _option;
+
+        private readonly Option<int> _option;
 
         public WhenAnOptionWithAnIntIsConstructedThen()
         {

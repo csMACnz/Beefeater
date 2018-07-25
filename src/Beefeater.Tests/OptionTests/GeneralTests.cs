@@ -16,16 +16,18 @@ namespace Beefeater.Tests.OptionTests
         }
 
         [Fact]
-        [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
+        [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull", Justification = "Test")]
         public void NullFooCanImplicityCastToNoneOptionOfFoo()
         {
-            Foo foo = null;
+            const Foo foo = null;
 
             Option<Foo> result = foo;
 
             Assert.False(result.HasValue);
         }
 
-        public class Foo { }
+        public class Foo
+        {
+        }
     }
 }

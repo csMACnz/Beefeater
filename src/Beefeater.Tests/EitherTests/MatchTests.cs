@@ -77,7 +77,6 @@ namespace Beefeater.Tests.EitherExtensionsTests
             [Fact]
             public void FuncMatchCallsSomeButNotNone()
             {
-
                 CallFuncMatch(_result, out bool someCalled, out bool noneCalled);
 
                 var someNotCalledAndNoneCalled = someCalled && !noneCalled;
@@ -224,7 +223,7 @@ namespace Beefeater.Tests.EitherExtensionsTests
             get
             {
                 yield return new object[] { Either<string, bool>.OfResult1("My Result") };
-                yield return new object[] { Either<string, bool>.OfResult1("") };
+                yield return new object[] { Either<string, bool>.OfResult1(string.Empty) };
                 yield return new object[] { Either<string, bool>.OfResult1(null) };
                 yield return new object[] { Either<string, bool>.OfResult2(true) };
                 yield return new object[] { Either<string, bool>.OfResult2(false) };
@@ -265,7 +264,8 @@ namespace Beefeater.Tests.EitherExtensionsTests
             processItem2Called = processItem2;
         }
 
-        private static TResult1 CallMatchToResult1<TResult1, TResult2>(Either<TResult1, TResult2> result) where TResult1 : class
+        private static TResult1 CallMatchToResult1<TResult1, TResult2>(Either<TResult1, TResult2> result)
+            where TResult1 : class
         {
             var value = result.Match(
                 processItem1: v => v,

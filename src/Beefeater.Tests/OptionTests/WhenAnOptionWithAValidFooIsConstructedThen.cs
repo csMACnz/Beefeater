@@ -1,13 +1,12 @@
 ﻿using Xunit;
 
 // ReSharper disable ImpureMethodCallOnReadonlyValueField
-
 namespace Beefeater.Tests.OptionTests
 {
-
         public class WhenAnOptionWithAValidFooIsConstructedThen
         {
             private readonly Foo _foo;
+
             private readonly Option<Foo> _option;
 
             public WhenAnOptionWithAValidFooIsConstructedThen()
@@ -38,7 +37,7 @@ namespace Beefeater.Tests.OptionTests
             [Fact]
             public void CanExplicitCastBackToAFoo()
             {
-                var result = (Foo) _option;
+                var result = (Foo)_option;
 
                 Assert.Equal(_foo, result);
             }

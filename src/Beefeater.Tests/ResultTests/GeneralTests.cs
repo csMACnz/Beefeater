@@ -3,10 +3,9 @@ using BCLExtensions;
 using Xunit;
 
 // ReSharper disable ImpureMethodCallOnReadonlyValueField
-
 namespace Beefeater.Tests
 {
-    public class ResultTests
+    public class GeneralTests
     {
         [Fact]
         public void ProvidedValidExceptionReturns()
@@ -15,13 +14,13 @@ namespace Beefeater.Tests
 
             Func<Exception, Result<string, Exception>> function = CreateResultFrom;
 
-            var resultEx = function(exception);
+            function(exception);
         }
 
         [Fact]
         public void ProvidedNullExceptionThrows()
         {
-            Exception exception = null;
+            const Exception exception = null;
 
             Func<Exception, Result<string, Exception>> function = CreateResultFrom;
 
@@ -186,7 +185,7 @@ namespace Beefeater.Tests
 
             public WhenConstructedUsingDefault()
             {
-                _result = default(Result<string, Exception>);
+                _result = default;
             }
 
             [Fact]
@@ -206,7 +205,6 @@ namespace Beefeater.Tests
             {
                 AssertThrowsException<Exception, PanicException>(_result, GetError);
             }
-
         }
 
         public class WhenConstructedUsingDefaultConstructor
@@ -242,7 +240,8 @@ namespace Beefeater.Tests
             return Result<string, Exception>.OfError(exception);
         }
 
-        private static void AssertThrowsException<T, TException>(Result<string, Exception> result, Func<Result<string, Exception>, T> action) where TException : Exception
+        private static void AssertThrowsException<T, TException>(Result<string, Exception> result, Func<Result<string, Exception>, T> action)
+            where TException : Exception
         {
             Assert.Throws<TException>(action.AsActionUsing(result));
         }
@@ -262,6 +261,8 @@ namespace Beefeater.Tests
             return result.Successful;
         }
 
-        private class Foo { }
+        private class Foo
+        {
+        }
     }
 }

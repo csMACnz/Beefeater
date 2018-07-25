@@ -77,7 +77,6 @@ namespace Beefeater.Tests.ResultTests
             [Fact]
             public void FuncMatchCallsSomeButNotNone()
             {
-
                 CallFuncMatch(_result, out bool someCalled, out bool noneCalled);
 
                 var someNotCalledAndNoneCalled = someCalled && !noneCalled;
@@ -224,11 +223,11 @@ namespace Beefeater.Tests.ResultTests
         {
             get
             {
-                yield return new object[] {Result<string, Exception>.OfValue("My Result")};
-                yield return new object[] {Result<string, Exception>.OfValue("")};
-                yield return new object[] {Result<string, Exception>.OfValue(null)};
-                yield return new object[] {Result<string, Exception>.OfError(new Exception())};
-                yield return new object[] {Result<string, Exception>.OfError(new PanicException())};
+                yield return new object[] { Result<string, Exception>.OfValue("My Result") };
+                yield return new object[] { Result<string, Exception>.OfValue(string.Empty) };
+                yield return new object[] { Result<string, Exception>.OfValue(null) };
+                yield return new object[] { Result<string, Exception>.OfError(new Exception()) };
+                yield return new object[] { Result<string, Exception>.OfError(new PanicException()) };
             }
         }
 
@@ -266,7 +265,8 @@ namespace Beefeater.Tests.ResultTests
             someCalled = some;
         }
 
-        private static TValue CallMatchToValue<TValue, TError>(Result<TValue, TError> result) where TValue : class
+        private static TValue CallMatchToValue<TValue, TError>(Result<TValue, TError> result)
+            where TValue : class
         {
             var value = result.Match(
                 some: v => v,

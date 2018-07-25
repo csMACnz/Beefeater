@@ -6,10 +6,12 @@ namespace Beefeater.Tests.TestHelpers
     {
         public static void EmptyMethod()
         {
+            // An intentionally empty test method
         }
 
         public static void EmptyMethod<T>(T v)
         {
+            // An intentionally empty test method
         }
 
         [Fact]
