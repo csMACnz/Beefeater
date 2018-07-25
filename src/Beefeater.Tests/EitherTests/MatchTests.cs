@@ -133,8 +133,9 @@ namespace Beefeater.Tests.EitherExtensionsTests
         public void WhenConstructedUsingDefaultConstructorWorksWithActionMatch()
         {
             var result = new Either<string, bool>();
-            
-            _callActionMatch.AsActionUsing(result, ActionHelpers.EmptyMethod, ActionHelpers.EmptyMethod);
+
+            Action<Action<string>, Action<bool>> callActionMatch = result.Match;
+            callActionMatch.AsActionUsing(ActionHelpers.EmptyMethod, ActionHelpers.EmptyMethod);
         }
 
         [Fact]
@@ -142,7 +143,8 @@ namespace Beefeater.Tests.EitherExtensionsTests
         {
             var result = default(Either<string, bool>);
 
-            _callActionMatch.AsActionUsing(result, ActionHelpers.EmptyMethod, ActionHelpers.EmptyMethod);
+            Action<Action<string>, Action<bool>> callActionMatch = result.Match;
+            callActionMatch.AsActionUsing(ActionHelpers.EmptyMethod, ActionHelpers.EmptyMethod);
         }
 
         [Fact]
@@ -150,7 +152,8 @@ namespace Beefeater.Tests.EitherExtensionsTests
         {
             var result = new Either<string, bool>();
 
-            _callFuncMatch.AsActionUsing(result, FuncHelpers.ReturnTrue, FuncHelpers.ReturnFalse);
+            Func<Func<string, bool>, Func<bool, bool>, bool> callFuncMatch = result.Match;
+            callFuncMatch.AsActionUsing(FuncHelpers.ReturnTrue, FuncHelpers.ReturnFalse);
         }
 
         [Fact]
@@ -158,62 +161,63 @@ namespace Beefeater.Tests.EitherExtensionsTests
         {
             var result = default(Either<string, bool>);
 
-            _callFuncMatch.AsActionUsing(result, FuncHelpers.ReturnTrue, FuncHelpers.ReturnFalse);
+            Func<Func<string, bool>, Func<bool, bool>, bool> callFuncMatch = result.Match;
+            callFuncMatch.AsActionUsing(FuncHelpers.ReturnTrue, FuncHelpers.ReturnFalse);
         }
 
         [Theory]
         [MemberData(nameof(ThrowsTestData))]
         public void ThrowsWhenActionMatchHasNullSome(Either<string, bool> result)
         {
+            Action<Action<string>, Action<bool>> callActionMatch = result.Match;
             Assert.Throws<ArgumentNullException>(
-                _callActionMatch.AsActionUsing(result, null, ActionHelpers.EmptyMethod));
+                callActionMatch.AsActionUsing(null, ActionHelpers.EmptyMethod));
         }
 
         [Theory]
         [MemberData(nameof(ThrowsTestData))]
         public void ThrowsWhenActionMatchHasNullNone(Either<string, bool> result)
         {
+            Action<Action<string>, Action<bool>> callActionMatch = result.Match;
             Assert.Throws<ArgumentNullException>(
-                _callActionMatch.AsActionUsing(result, ActionHelpers.EmptyMethod, null));
+                callActionMatch.AsActionUsing(ActionHelpers.EmptyMethod, null));
         }
 
         [Theory]
         [MemberData(nameof(ThrowsTestData))]
         public void ThrowsWhenActionMatchHasNullBoth(Either<string, bool> result)
         {
-
+            Action<Action<string>, Action<bool>> callActionMatch = result.Match;
             Assert.Throws<ArgumentNullException>(
-                _callActionMatch.AsActionUsing(result, null, null));
+                callActionMatch.AsActionUsing(null, null));
         }
 
         [Theory]
         [MemberData(nameof(ThrowsTestData))]
         public void ThrowsWhenFuncMatchHasNullSome(Either<string, bool> result)
         {
+            Func<Func<string, bool>, Func<bool, bool>, bool> callFuncMatch = result.Match;
             Assert.Throws<ArgumentNullException>(
-                _callFuncMatch.AsActionUsing(result, null, FuncHelpers.ReturnFalse));
+                callFuncMatch.AsActionUsing(null, FuncHelpers.ReturnFalse));
         }
 
         [Theory]
         [MemberData(nameof(ThrowsTestData))]
         public void ThrowsWhenFuncMatchHasNullNone(Either<string, bool> result)
         {
+            Func<Func<string, bool>, Func<bool, bool>, bool> callFuncMatch = result.Match;
             Assert.Throws<ArgumentNullException>(
-                _callFuncMatch.AsActionUsing(result, FuncHelpers.ReturnTrue, null));
+                callFuncMatch.AsActionUsing(FuncHelpers.ReturnTrue, null));
         }
 
         [Theory]
         [MemberData(nameof(ThrowsTestData))]
         public void ThrowsWhenFuncMatchHasNullBoth(Either<string, bool> result)
         {
+            Func<Func<string, bool>, Func<bool, bool>, bool> callFuncMatch = result.Match;
             Assert.Throws<ArgumentNullException>(
-                _callFuncMatch.AsActionUsing(result, null, null));
+                callFuncMatch.AsActionUsing(null, null));
         }
-
-        private readonly Action<Either<string, bool>, Action<string>, Action<bool>> _callActionMatch =
-            EitherExtensions.Match;
-        private readonly Func<Either<string, bool>, Func<string, bool>, Func<bool, bool>, bool> _callFuncMatch =
-            EitherExtensions.Match;
 
         public static IEnumerable<object[]> ThrowsTestData
         {

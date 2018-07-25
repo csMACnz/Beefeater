@@ -102,5 +102,30 @@ namespace Beefeater
         {
             return new Result<TResult, TError>(error);
         }
+        
+        public void Match(
+            Action<TResult> some,
+            Action<TError> none)
+        {
+            if (some == null) throw new ArgumentNullException(nameof(some));
+            if (none == null) throw new ArgumentNullException(nameof(none));
+            if (Successful)
+            {
+                some(Value);
+            }
+            else
+            {
+                none(Error);
+            }
+        }
+
+        public TValue Match<TValue>(
+            Func<TResult, TValue> some,
+            Func<TError, TValue> none)
+        {
+            if (some == null) throw new ArgumentNullException(nameof(some));
+            if (none == null) throw new ArgumentNullException(nameof(none));
+            return Successful ? some(Value) : none(Error);
+        }
     }
 }

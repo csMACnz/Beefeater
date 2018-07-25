@@ -116,6 +116,31 @@ namespace Beefeater
             return new Either<TResult1, TResult2>(value);
         }
 
+        public void Match(
+            Action<TResult1> processItem1,
+            Action<TResult2> processItem2)
+        {
+            if (processItem1 == null) throw new ArgumentNullException(nameof(processItem1));
+            if (processItem2 == null) throw new ArgumentNullException(nameof(processItem2));
+            if (IsItem1)
+            {
+                processItem1(Item1);
+            }
+            else if (IsItem2)
+            {
+                processItem2(Item2);
+            }
+        }
+
+        public TValue Match<TValue>(
+            Func<TResult1, TValue> processItem1,
+            Func<TResult2, TValue> processItem2)
+        {
+            if (processItem1 == null) throw new ArgumentNullException(nameof(processItem1));
+            if (processItem2 == null) throw new ArgumentNullException(nameof(processItem2));
+            return IsItem1 ? processItem1(Item1) : processItem2(Item2);
+        }
+
         private enum State
         {
             Result1,

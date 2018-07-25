@@ -4,7 +4,7 @@ using BCLExtensions;
 using Beefeater.Tests.TestHelpers;
 using Xunit;
 
-namespace Beefeater.Tests.ResultExtensionsTests
+namespace Beefeater.Tests.ResultTests
 {
     public class MatchTests
     {
@@ -135,7 +135,8 @@ namespace Beefeater.Tests.ResultExtensionsTests
         {
             var result = new Result<string, Exception>();
 
-            Assert.Throws<PanicException>(_callActionMatch.AsActionUsing(result, ActionHelpers.EmptyMethod, ActionHelpers.EmptyMethod));
+            Action<Action<string>, Action<Exception>> callActionMatch = result.Match;
+            Assert.Throws<PanicException>(callActionMatch.AsActionUsing(ActionHelpers.EmptyMethod, ActionHelpers.EmptyMethod));
         }
 
         [Fact]
@@ -143,7 +144,8 @@ namespace Beefeater.Tests.ResultExtensionsTests
         {
             var result = default(Result<string, Exception>);
 
-            Assert.Throws<PanicException>(_callActionMatch.AsActionUsing(result, ActionHelpers.EmptyMethod, ActionHelpers.EmptyMethod));
+            Action<Action<string>, Action<Exception>> callActionMatch = result.Match;
+            Assert.Throws<PanicException>(callActionMatch.AsActionUsing(ActionHelpers.EmptyMethod, ActionHelpers.EmptyMethod));
         }
 
         [Fact]
@@ -151,7 +153,8 @@ namespace Beefeater.Tests.ResultExtensionsTests
         {
             var result = new Result<string, Exception>();
 
-            Assert.Throws<PanicException>(_callFuncMatch.AsActionUsing(result, FuncHelpers.ReturnTrue, FuncHelpers.ReturnFalse));
+            Func<Func<string, bool>, Func<Exception, bool>, bool> callFuncMatch = result.Match;
+            Assert.Throws<PanicException>(callFuncMatch.AsActionUsing(FuncHelpers.ReturnTrue, FuncHelpers.ReturnFalse));
         }
 
         [Fact]
@@ -159,62 +162,63 @@ namespace Beefeater.Tests.ResultExtensionsTests
         {
             var result = default(Result<string, Exception>);
 
-            Assert.Throws<PanicException>(_callFuncMatch.AsActionUsing(result, FuncHelpers.ReturnTrue, FuncHelpers.ReturnFalse));
+            Func<Func<string, bool>, Func<Exception, bool>, bool> callFuncMatch = result.Match;
+            Assert.Throws<PanicException>(callFuncMatch.AsActionUsing(FuncHelpers.ReturnTrue, FuncHelpers.ReturnFalse));
         }
 
         [Theory]
         [MemberData(nameof(ThrowsTestData))]
         public void ThrowsWhenActionMatchHasNullSome(Result<string, Exception> result)
         {
+            Action<Action<string>, Action<Exception>> callActionMatch = result.Match;
             Assert.Throws<ArgumentNullException>(
-                _callActionMatch.AsActionUsing(result, null, ActionHelpers.EmptyMethod));
+                callActionMatch.AsActionUsing(null, ActionHelpers.EmptyMethod));
         }
 
         [Theory]
         [MemberData(nameof(ThrowsTestData))]
         public void ThrowsWhenActionMatchHasNullNone(Result<string, Exception> result)
         {
+            Action<Action<string>, Action<Exception>> callActionMatch = result.Match;
             Assert.Throws<ArgumentNullException>(
-                _callActionMatch.AsActionUsing(result, ActionHelpers.EmptyMethod, null));
+                callActionMatch.AsActionUsing(ActionHelpers.EmptyMethod, null));
         }
 
         [Theory]
         [MemberData(nameof(ThrowsTestData))]
         public void ThrowsWhenActionMatchHasNullBoth(Result<string, Exception> result)
         {
-
+            Action<Action<string>, Action<Exception>> callActionMatch = result.Match;
             Assert.Throws<ArgumentNullException>(
-                _callActionMatch.AsActionUsing(result, null, null));
+                callActionMatch.AsActionUsing(null, null));
         }
 
         [Theory]
         [MemberData(nameof(ThrowsTestData))]
         public void ThrowsWhenFuncMatchHasNullSome(Result<string, Exception> result)
         {
+            Func<Func<string, bool>, Func<Exception, bool>, bool> callFuncMatch = result.Match;
             Assert.Throws<ArgumentNullException>(
-                _callFuncMatch.AsActionUsing(result, null, FuncHelpers.ReturnFalse));
+                callFuncMatch.AsActionUsing(null, FuncHelpers.ReturnFalse));
         }
 
         [Theory]
         [MemberData(nameof(ThrowsTestData))]
         public void ThrowsWhenFuncMatchHasNullNone(Result<string, Exception> result)
         {
+            Func<Func<string, bool>, Func<Exception, bool>, bool> callFuncMatch = result.Match;
             Assert.Throws<ArgumentNullException>(
-                _callFuncMatch.AsActionUsing(result, FuncHelpers.ReturnTrue, null));
+                callFuncMatch.AsActionUsing(FuncHelpers.ReturnTrue, null));
         }
 
         [Theory]
         [MemberData(nameof(ThrowsTestData))]
         public void ThrowsWhenFuncMatchHasNullBoth(Result<string, Exception> result)
         {
+            Func<Func<string, bool>, Func<Exception, bool>, bool> callFuncMatch = result.Match;
             Assert.Throws<ArgumentNullException>(
-                _callFuncMatch.AsActionUsing(result, null, null));
+                callFuncMatch.AsActionUsing(null, null));
         }
-
-        private readonly Action<Result<string, Exception>, Action<string>, Action<Exception>> _callActionMatch =
-            ResultExtensions.Match;
-        private readonly Func<Result<string, Exception>, Func<string, bool>, Func<Exception, bool>, bool> _callFuncMatch =
-            ResultExtensions.Match;
 
         public static IEnumerable<object[]> ThrowsTestData
         {

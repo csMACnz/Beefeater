@@ -5,7 +5,7 @@ using Xunit;
 
 // ReSharper disable ImpureMethodCallOnReadonlyValueField
 
-namespace Beefeater.Tests.OptionExtensionsTests
+namespace Beefeater.Tests.OptionTests
 {
     public class MatchTests
     {
@@ -202,22 +202,22 @@ namespace Beefeater.Tests.OptionExtensionsTests
             [Fact]
             public void ActionMatchWithNullSomeCaseThrowsException()
             {
-                Action<Option<Foo>, Action<Foo>, Action> callActionMatch = OptionExtensions.Match;
-                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, ActionHelpers.EmptyMethod));
+                Action<Action<Foo>, Action> callActionMatch = _option.Match;
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(null, ActionHelpers.EmptyMethod));
             }
 
             [Fact]
             public void ActionMatchWithNullNoneCaseThrowsException()
             {
-                Action<Option<Foo>, Action<Foo>, Action> callActionMatch = OptionExtensions.Match;
-                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, ActionHelpers.EmptyMethod, null));
+                Action<Action<Foo>, Action> callActionMatch = _option.Match;
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(ActionHelpers.EmptyMethod, null));
             }
 
             [Fact]
             public void ActionMatchWithBothCasesNullThrowsException()
             {
-                Action<Option<Foo>, Action<Foo>, Action> callActionMatch = OptionExtensions.Match;
-                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, null));
+                Action<Action<Foo>, Action> callActionMatch = _option.Match;
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(null, null));
             }
 
             public class Foo
@@ -286,22 +286,22 @@ namespace Beefeater.Tests.OptionExtensionsTests
             [Fact]
             public void ActionMatchWithNullSomeCaseThrowsException()
             {
-                Action<Option<Foo>, Action<Foo>, Action> callActionMatch = OptionExtensions.Match;
-                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, ActionHelpers.EmptyMethod));
+                Action<Action<Foo>, Action> callActionMatch = _option.Match;
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(null, ActionHelpers.EmptyMethod));
             }
 
             [Fact]
             public void ActionMatchWithNullNoneCaseThrowsException()
             {
-                Action<Option<Foo>, Action<Foo>, Action> callActionMatch = OptionExtensions.Match;
-                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, ActionHelpers.EmptyMethod, null));
+                Action<Action<Foo>, Action> callActionMatch = _option.Match;
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(ActionHelpers.EmptyMethod, null));
             }
 
             [Fact]
             public void ActionMatchWithBothCasesNullThrowsException()
             {
-                Action<Option<Foo>, Action<Foo>, Action> callActionMatch = OptionExtensions.Match;
-                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, null));
+                Action<Action<Foo>, Action> callActionMatch = _option.Match;
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(null, null));
             }
 
             [Fact]
@@ -315,22 +315,22 @@ namespace Beefeater.Tests.OptionExtensionsTests
             [Fact]
             public void FuncMatchWithNullSomeCaseThrowsException()
             {
-                Func<Option<Foo>, Func<Foo, bool>, Func<bool>, bool> callActionMatch = OptionExtensions.Match;
-                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, FuncHelpers.ReturnTrue));
+                Func<Func<Foo, bool>, Func<bool>, bool> callActionMatch = _option.Match;
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(null, FuncHelpers.ReturnTrue));
             }
 
             [Fact]
             public void FuncMatchWithNullNoneCaseThrowsException()
             {
-                Func<Option<Foo>, Func<Foo, bool>, Func<bool>, bool> callActionMatch = OptionExtensions.Match;
-                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, FuncHelpers.ReturnTrue, null));
+                Func<Func<Foo, bool>, Func<bool>, bool> callActionMatch = _option.Match;
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(FuncHelpers.ReturnTrue, null));
             }
 
             [Fact]
             public void FuncMatchWithBothCasesNullThrowsException()
             {
-                Func<Option<Foo>, Func<Foo, bool>, Func<bool>, bool> callActionMatch = OptionExtensions.Match;
-                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(_option, null, null));
+                Func<Func<Foo, bool>, Func<bool>, bool> callActionMatch = _option.Match;
+                Assert.Throws<ArgumentNullException>(callActionMatch.AsActionUsing(null, null));
             }
 
             public class Foo
@@ -407,7 +407,7 @@ namespace Beefeater.Tests.OptionExtensionsTests
 
         private static int? CallMatchToNullableInt(Option<int> option)
         {
-            var result = option.Match<int, int?>(
+            var result = option.Match<int?>(
                 some: v => v,
                 none: () => null);
             return result;

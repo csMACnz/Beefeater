@@ -1,4 +1,6 @@
-﻿namespace Beefeater
+﻿using System;
+
+namespace Beefeater
 {
     public struct Option<T>
     {
@@ -35,6 +37,33 @@
             }
 
             throw new PanicException();
+        }
+
+        public TResult Match<TResult>(Func<T, TResult> some, Func<TResult> none)
+        {
+            if (some == null) throw new ArgumentNullException(nameof(some));
+            if (none == null) throw new ArgumentNullException(nameof(none));
+
+            return HasValue ? some(_value) : none();
+        }
+
+        public void Match(Action<T> some, Action none)
+        {
+            if (some == null) throw new ArgumentNullException(nameof(some));
+            if (none == null) throw new ArgumentNullException(nameof(none));
+            if (HasValue)
+            {
+                some(_value);
+            }
+            else
+            {
+                none();
+            }
+        }
+
+        public T ValueOrDefault()
+        {
+            return ValueOr(default(T));
         }
     }
 }

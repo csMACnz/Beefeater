@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace Beefeater.Tests.OptionExtensionsTests
+namespace Beefeater.Tests.OptionTests
 {
     public class ValueOrDefaultTests
     {
