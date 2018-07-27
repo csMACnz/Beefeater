@@ -3,7 +3,7 @@
 <PropertyGroup>
     <Description>Tests for Beefeater</Description>
     <AssemblyTitle>Tests for Beefeater</AssemblyTitle>
-    <TargetFrameworks>netcoreapp1.1</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
     <AssemblyName>Beefeater.Tests</AssemblyName>
     <PackageId>Beefeater.Tests</PackageId>
     <PackageLicenseUrl>https://github.com/csMACnz/Beefeater/blob/master/LICENSE</PackageLicenseUrl>
