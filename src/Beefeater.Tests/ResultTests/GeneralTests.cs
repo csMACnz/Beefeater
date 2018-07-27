@@ -3,7 +3,7 @@ using BCLExtensions;
 using Xunit;
 
 // ReSharper disable ImpureMethodCallOnReadonlyValueField
-namespace Beefeater.Tests
+namespace Beefeater.Tests.ResultTests
 {
     public class GeneralTests
     {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Beefeater
 {
@@ -170,6 +171,50 @@ namespace Beefeater
             }
 
             return Successful ? some(Value) : none(Error);
+        }
+
+        public Result<TResult, TError> ErrorOr(Func<TResult, Result<TResult, TError>> some)
+        {
+            if (some == null)
+            {
+                throw new ArgumentNullException(nameof(some));
+            }
+
+            return Successful ? some(Value) : Error;
+        }
+
+        public Result<TValue, TError> ErrorOr<TValue>(Func<TResult, Result<TValue, TError>> some)
+        {
+            if (some == null)
+            {
+                throw new ArgumentNullException(nameof(some));
+            }
+
+            return Successful ? some(Value) : Error;
+        }
+
+        public async Task<Result<TValue, TError>> ErrorOrAsync<TValue>(Func<TResult, Task<Result<TValue, TError>>> some)
+        {
+            if (some == null)
+            {
+                throw new ArgumentNullException(nameof(some));
+            }
+
+            return Successful
+                ? await some(Value)
+                : Error;
+        }
+
+        public async Task<Result<TResult, TError>> ErrorOrAsync(Func<TResult, Task<Result<TResult, TError>>> some)
+        {
+            if (some == null)
+            {
+                throw new ArgumentNullException(nameof(some));
+            }
+
+            return Successful
+                ? await some(Value)
+                : Error;
         }
 
         public override bool Equals(object obj)
