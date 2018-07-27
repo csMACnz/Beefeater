@@ -104,3 +104,22 @@ public Either<long, double> DivideByTwo(int aNumber)
 var x = DivideByTwo(10);
 var x = DivideByTwo(5);
 ```
+
+---
+
+
+```
+public Result<long, string> DivideByTwo(int aNumber)
+{
+    if (aNumber % 2 == 0)
+        return aNumber / 2;
+    return "Won't divide Cleanly";
+}
+
+Result<long, string> result = DivideByTwo(10);
+
+// Modify the value or passthrough the error
+Result<long, string> mul = result.ErrorOr(val => val * 2);
+Result<string, string> final = result.ErrorOr(val => $"The value is {val}");
+
+```
