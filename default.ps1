@@ -165,7 +165,7 @@ task archive-only {
 task pack -depends build, pack-only
 
 task pack-only {
-    dotnet pack -c $configuration -o $package_dir ".\src\beefeater\Beefeater.csproj"
+    dotnet pack -c $configuration -o $package_dir ".\src\beefeater\Beefeater.csproj" "/p:Version=$script:nugetVersion"
 }
 
 task postbuild -depends pack, archive, coverage-only, coveralls, codecov
